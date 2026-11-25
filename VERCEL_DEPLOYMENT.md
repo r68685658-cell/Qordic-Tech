@@ -1,73 +1,80 @@
-# Vercel deployment
+# Vercel Services deployment
 
-## Project settings
+The repository root contains the Vite frontend (`package.json`, `index.html`,
+`vite.config.js`, and `src/`). The FastAPI service is in `backend/`; its
+application is exported from `backend/app/main.py` as `app`.
 
-The Vite frontend is the project in this directory (`react-app`): it contains
-`package.json`, `index.html`, `vite.config.js`, and `src/`. The FastAPI
-application is in the separate `backend/` directory and is not part of this
-frontend build.
+## Service routing
 
-Configure the Vercel project as follows:
+The root `vercel.json` defines two services:
 
-- **Root Directory:** `react-app` when the connected Git repository is rooted
-  at the directory containing this folder. If the repository itself is this
-  directory, leave Root Directory at `./`.
-- **Framework Preset:** Vite.
-- **Build Command:** `npm run build`.
-- **Output Directory:** `dist`.
-- **Install Command:** leave the Vercel default for npm / `package-lock.json`.
+- `app`: repository root `.`, Vite build command `npm run build`, output
+  directory `dist`.
+- `backend`: root `backend`, FastAPI entrypoint `app.main:app`.
 
-The existing Vite configuration uses Vite's default `dist` output directory.
-The deployment rewrite sends non-API paths to `/index.html`, allowing the SPA
-and its React Router routes to load on direct visits and refreshes. Paths under
-`/api` are deliberately excluded from that fallback.
+Public rewrite order is significant. `/api` and `/api/...` go to `backend`;
+the catch-all goes to `app`. The frontend service rewrites unmatched website
+routes to `/index.html` so React Router routes work on refresh. The backend
+receives the original `/api/...` path. Its existing routes already use the
+`/api` prefix, so no additional prefix is added and paths do not become
+`/api/api/...`.
+
+Both services are public on their respective paths; there are no internal
+service bindings. Admin API routes remain under `/api/admin/...` and enforce
+the backend's existing authentication.
 
 ## Environment variables
 
-Configure these in **Vercel Project Settings → Environment Variables** for each
-environment that needs them:
+Add these in Vercel Project Settings → Environment Variables, scoped to the
+appropriate service and deployment environments:
+
+**Frontend (`app`)**
 
 - `VITE_EMAILJS_SERVICE_ID`
 - `VITE_EMAILJS_TEMPLATE_ID`
 - `VITE_EMAILJS_PUBLIC_KEY`
-- `VITE_API_BASE_URL` when the frontend needs to call a separately deployed
-  FastAPI backend.
+- `VITE_API_BASE_URL` is optional; the frontend defaults to the same-origin
+  `/api` path. Only set it if using a backend hosted at a separate HTTPS origin.
 
-Use the real values from your provider and backend deployment. Do not commit
-`.env.local`, EmailJS private keys, Gmail passwords, or other credentials.
-`VITE_API_BASE_URL` must be the actual HTTPS origin for the separately hosted
-FastAPI service; no production backend URL is configured or assumed here. The
-development proxy in `vite.config.js` only applies to the local Vite server and
-does not deploy the FastAPI application.
+EmailJS values are browser-facing public configuration. Do not put an EmailJS
+private key or Gmail password in frontend variables.
 
-## Connect and deploy
+**Backend (`backend`)**
 
-1. In Vercel, create a project and import the Git repository containing this
-   frontend.
-2. Set **Root Directory** to `react-app` if the repository contains this folder
-   beneath its root; otherwise use `./` when this directory is the repository
-   root.
-3. Confirm the Vite preset, `npm run build`, and `dist` output directory.
-4. Add the required environment variables for Preview and Production as
-   appropriate. Save the settings.
-5. Deploy the project. Later configuration or environment changes require a
-   new deployment: push a commit or use **Deployments → Redeploy** in Vercel.
+- `QORDIC_ADMIN_PASSWORD` — unique, long administrator password.
+- `QORDIC_JWT_SECRET` — unique random secret of at least 32 bytes.
+- `QORDIC_AI_API_KEY` — optional provider key; without it, AI provider features
+  remain unavailable.
+- `QORDIC_AI_BASE_URL`, `QORDIC_AI_CHAT_MODEL`, and
+  `QORDIC_AI_EMBEDDING_MODEL` — optional provider settings.
+- `QORDIC_ALLOWED_ORIGINS` — only needed for cross-origin browser requests;
+  same-origin `/api` requests through Vercel do not require CORS.
 
-## Verify the deployment
+Keep all backend credentials in backend/server environment settings. Never
+commit `.env.local`, `backend/.env`, API keys, passwords, or JWT secrets.
 
-After deployment, open the assigned production URL and confirm that the home
-page loads. Also open a known client route such as `/services`, `/contact`, or
-`/start-project`, then refresh that route. It should still serve the React app.
-Confirm static assets load and, if the backend URL is configured, verify the
-site's AI/backend features separately.
+## Storage limitation to address before production
 
-The SPA rewrite does not proxy `/api` to FastAPI. Deploy the backend separately
-and set `VITE_API_BASE_URL` to its actual origin in Vercel. Without that
-configuration, API requests cannot reach the local development backend.
+The backend currently stores conversations, knowledge, and inquiries in a
+local SQLite file under `backend/data` by default. Vercel's function filesystem
+is not durable shared storage across invocations/deployments. Do not rely on
+this SQLite file for persistent production records; migrate the storage layer
+to a managed persistent database before using the backend for production data.
 
-If the deployment still returns `404 NOT_FOUND`, check that the URL belongs to
-the intended Vercel project and deployment, the deployment status is **Ready**,
-and the configured Root Directory contains this `package.json` and `index.html`.
-Then open the deployment's **Build Logs** and **Function Logs** (if applicable)
-to check for a failed build or routing issue. Also check that the domain is
-assigned to the intended project and whether deployment protection is enabled.
+## Deploy and verify
+
+1. Import the Git repository into Vercel and select **Services** as the project
+   framework/configuration mode.
+2. Keep the project root at `.` so the root `vercel.json` can define both
+   services. Vercel uses the service roots in that file for each build.
+3. Confirm `app` uses `npm run build` and `dist`, and `backend` uses
+   `app.main:app` with dependencies from `backend/requirements.txt`.
+4. Add the environment variables above to the appropriate service scopes.
+5. Review the routing configuration and deploy only after confirming the
+   service names, public paths, and security settings.
+6. Verify `/`, a client route such as `/contact` after refresh, and
+   `/api/health`. Confirm API requests return JSON rather than the frontend
+   HTML. Also inspect the app and backend build/runtime logs.
+
+This repository configuration has not been deployed to Vercel. A successful
+local build does not verify the Vercel project settings or a live deployment.

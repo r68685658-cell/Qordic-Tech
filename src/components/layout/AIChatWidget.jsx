@@ -120,7 +120,7 @@ export function AIChatWidget() {
     let active = true;
     const check = async () => {
       try {
-        const response = await fetch(apiUrl("/health"));
+        const response = await fetch(apiUrl("/api/health"));
         if (!response.ok) throw new Error("Status unavailable");
         const health = await response.json();
         const status = health.backend === "online" ? health.ai_provider : "offline";

@@ -28,7 +28,7 @@ Start the API from the project root:
 backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --reload --host 127.0.0.1 --port 8000
 ```
 
-In another terminal, start Vite with `npm run dev`. Vite proxies `/api` and `/health` to `http://127.0.0.1:8000`; if the API uses another address, set `QORDIC_API_PROXY_TARGET` in the root `.env.local`. For a deployed frontend and API on different origins, set `VITE_API_BASE_URL` to the backend HTTPS origin and allow the deployed frontend origin in `QORDIC_ALLOWED_ORIGINS`. Visit `/admin/ai` to sign in and manage the knowledge base.
+In another terminal, start Vite with `npm run dev`. Vite proxies `/api` and `/health` to `http://127.0.0.1:8000`; if the API uses another address, set `QORDIC_API_PROXY_TARGET` in the root `.env.local`. The frontend defaults to the same-origin `/api` path, including when deployed through Vercel Services. For a separately hosted backend, set `VITE_API_BASE_URL` to its HTTPS origin and allow the deployed frontend origin in `QORDIC_ALLOWED_ORIGINS`. Visit `/admin/ai` to sign in and manage the knowledge base.
 
 ## Knowledge and provider workflow
 
