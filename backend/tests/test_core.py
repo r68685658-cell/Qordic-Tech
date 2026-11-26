@@ -58,6 +58,27 @@ def test_public_chat_retrieval_excludes_future_erp_knowledge(monkeypatch, tmp_pa
     assert [item["title"] for item in results] == ["Website services"]
 
 
+def test_system_prompt_always_includes_verified_company_services():
+    prompt = main.system_prompt([])
+
+    assert "QORDIC Technologies is a technology-focused company" in prompt
+    for service in (
+        "Software Development",
+        "Website Development",
+        "Graphic Designing",
+        "Search Engine Optimization (SEO)",
+        "Video Editing",
+        "Real Estate Solutions",
+    ):
+        assert service in prompt
+    assert "even when no retrieved reference excerpts are available" in prompt
+    assert "Suggest WhatsApp" in prompt
+    assert "/start-project" in prompt
+    assert "do not add unlisted deliverables, technologies, platforms, processes, tactics, features" in prompt
+    assert "do not claim specific programming stacks, e-commerce, CMS, maintenance/support" in prompt
+    assert "[No additional indexed company knowledge is currently available.]" in prompt
+
+
 def test_admin_token_is_signed_and_expires(monkeypatch):
     monkeypatch.setattr(main, "JWT_SECRET", "test-secret-value-that-is-long-enough-123")
     valid = main.encode_token({"sub": "admin", "exp": 4_000_000_000})
@@ -121,11 +142,159 @@ def test_unknown_company_answers_are_honest_and_match_language():
     assert "میرے پاس" in main.unknown_answer("آپ کی قیمت کیا ہے؟")
 
 
+def test_groq_chat_uses_server_credentials_and_configured_model(monkeypatch):
+    monkeypatch.setattr(main, "GROQ_API_KEY", "test-groq-secret")
+    monkeypatch.setattr(main, "GROQ_MODEL", "test-groq-model")
+    monkeypatch.setattr(main, "AI_API_KEY", "")
+
+    config = main.chat_provider_config()
+
+    assert config == {
+        "base_url": "https://api.groq.com/openai/v1",
+        "api_key": "test-groq-secret",
+        "chat_model": "test-groq-model",
+        "provider": "groq",
+    }
+    assert main.chat_provider_ready()
+    assert not main.embedding_provider_ready()
+
+
+@pytest.mark.parametrize(
+    ("status_code", "message"),
+    [
+        (401, "rejected its server credentials"),
+        (403, "rejected its server credentials"),
+        (429, "rate-limited"),
+        (500, "could not complete this request"),
+    ],
+)
+def test_provider_errors_are_actionable_without_exposing_credentials(status_code, message):
+    response_message = main.provider_error_message(status_code)
+
+    assert message in response_message
+    assert "test-groq-secret" not in response_message
+
+
+def test_chat_streams_groq_response_without_embedding_provider(monkeypatch, tmp_path):
+    monkeypatch.setattr(main, "DB_PATH", tmp_path / "groq-chat.sqlite3")
+    monkeypatch.setattr(main, "GROQ_API_KEY", "test-groq-secret")
+    monkeypatch.setattr(main, "GROQ_MODEL", "test-groq-model")
+    monkeypatch.setattr(main, "AI_API_KEY", "")
+    captured = {}
+
+    class FakeStreamResponse:
+        status_code = 200
+        is_error = False
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *_args):
+            return None
+
+        async def aiter_lines(self):
+            yield 'data: {"choices":[{"delta":{"content":"Groq response received."}}]}'
+            yield "data: [DONE]"
+
+    class FakeAsyncClient:
+        def __init__(self, **_kwargs):
+            pass
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *_args):
+            return None
+
+        def stream(self, method, url, headers, json):
+            captured.update(method=method, url=url, headers=headers, payload=json)
+            return FakeStreamResponse()
+
+    monkeypatch.setattr(main.httpx, "AsyncClient", FakeAsyncClient)
+
+    with TestClient(main.app) as client:
+        response = client.post(
+            "/api/chat",
+            json={"conversation_id": "groq-test", "message": "What does QORDIC Technologies do?"},
+        )
+
+    assert response.status_code == 200
+    assert "Groq response received." in response.text
+    assert captured["url"] == "https://api.groq.com/openai/v1/chat/completions"
+    assert captured["payload"]["model"] == "test-groq-model"
+    assert captured["payload"]["stream"] is True
+    assert captured["payload"]["messages"][0]["role"] == "system"
+    assert "QORDIC Technologies is a technology-focused company" in captured["payload"]["messages"][0]["content"]
+    assert "Search Engine Optimization (SEO)" in captured["payload"]["messages"][0]["content"]
+    assert captured["headers"]["Authorization"] == "Bearer test-groq-secret"
+    assert "test-groq-secret" not in response.text
+
+
+@pytest.mark.parametrize(
+    ("status_code", "message"),
+    [
+        (401, "rejected its server credentials"),
+        (429, "rate-limited"),
+        (502, "could not complete this request"),
+    ],
+)
+def test_chat_stream_reports_groq_provider_failures(
+    monkeypatch, tmp_path, status_code, message
+):
+    monkeypatch.setattr(main, "DB_PATH", tmp_path / f"groq-error-{status_code}.sqlite3")
+    monkeypatch.setattr(main, "GROQ_API_KEY", "test-groq-secret")
+    monkeypatch.setattr(main, "GROQ_MODEL", "test-groq-model")
+    monkeypatch.setattr(main, "AI_API_KEY", "")
+
+    class FakeStreamResponse:
+        is_error = True
+
+        def __init__(self):
+            self.status_code = status_code
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *_args):
+            return None
+
+        async def aiter_lines(self):
+            if False:
+                yield ""
+
+    class FakeAsyncClient:
+        def __init__(self, **_kwargs):
+            pass
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *_args):
+            return None
+
+        def stream(self, *_args, **_kwargs):
+            return FakeStreamResponse()
+
+    monkeypatch.setattr(main.httpx, "AsyncClient", FakeAsyncClient)
+
+    with TestClient(main.app) as client:
+        response = client.post(
+            "/api/chat",
+            json={"conversation_id": f"groq-error-{status_code}", "message": "Hello"},
+        )
+
+    assert response.status_code == 200
+    assert message in response.text
+    assert "test-groq-secret" not in response.text
+
+
 def test_admin_api_requires_auth_and_provider_status_is_offline(monkeypatch, tmp_path):
     monkeypatch.setattr(main, "DB_PATH", tmp_path / "api.sqlite3")
     monkeypatch.setattr(main, "ADMIN_PASSWORD", "long-test-admin-password")
     monkeypatch.setattr(main, "JWT_SECRET", "test-secret-value-that-is-at-least-thirty-two")
     monkeypatch.setattr(main, "AI_API_KEY", "")
+    monkeypatch.setattr(main, "GROQ_API_KEY", "")
+    monkeypatch.setattr(main, "_provider_health_checked_at", 0.0)
 
     with TestClient(main.app) as client:
         assert client.get("/api/admin/overview").status_code == 401

@@ -16,8 +16,9 @@ Edit `backend\.env` and set:
 
 - `QORDIC_ADMIN_PASSWORD`: a unique, long password for `/admin/ai`.
 - `QORDIC_JWT_SECRET`: generate with `py -c "import secrets; print(secrets.token_urlsafe(48))"`.
-- `QORDIC_AI_API_KEY`: a server-side key for the selected OpenAI-compatible provider. Leave blank to keep the assistant accurately offline.
-- `QORDIC_AI_BASE_URL`, `QORDIC_AI_CHAT_MODEL`, `QORDIC_AI_EMBEDDING_MODEL`: provider endpoint and model identifiers.
+- `GROQ_API_KEY` and `GROQ_MODEL`: server-side Groq chat credentials and model (`openai/gpt-oss-120b` is the default). The API key is never sent to or embedded in the frontend.
+- `QORDIC_AI_API_KEY`: optional server-side OpenAI-compatible embedding provider key. Groq provides chat completions but not embeddings; without this embedding provider, chat still responds but cannot retrieve indexed company knowledge.
+- `QORDIC_AI_BASE_URL`, `QORDIC_AI_CHAT_MODEL`, `QORDIC_AI_EMBEDDING_MODEL`: embedding provider endpoint and model identifiers, and fallback chat settings when Groq is not configured.
 - `QORDIC_ALLOWED_ORIGINS`: exact frontend origins, comma-separated.
 
 Never put provider or admin secrets in a `VITE_` variable. The root `.env.example` contains only the optional public API URL.
@@ -35,7 +36,7 @@ In another terminal, start Vite with `npm run dev`. Vite proxies `/api` and `/he
 - On the first API start, the company information in `seed_knowledge.json` is copied into SQLite. When a provider key is configured, pending entries are embedded and indexed at startup.
 - Admins can add/edit/delete knowledge, FAQs, and HTTPS website sources; upload PDF, DOCX, TXT, and Markdown files (10 MB maximum); and reindex entries. Editing the embedding provider/model invalidates and rebuilds the vector index.
 - Only admin-entered or admin-approved material is retrieved. Visitor conversations are not indexed as company knowledge.
-- The default admin provider supports OpenAI-compatible `/models`, `/embeddings`, and streaming `/chat/completions` endpoints. Configure the base URL and model identifiers in the dashboard; configure the key only in the backend environment.
+- Groq chat uses `https://api.groq.com/openai/v1` with `GROQ_MODEL`. The separate embedding provider supports OpenAI-compatible `/models` and `/embeddings` endpoints. Configure its base URL and model identifiers in the dashboard; configure keys only in the backend environment.
 - Responses that could not be completed are surfaced as errors, not represented as AI answers. The widget shows online only after the backend can reach the configured provider.
 
 ## Project inquiry storage

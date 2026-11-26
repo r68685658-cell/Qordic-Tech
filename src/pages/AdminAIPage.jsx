@@ -320,7 +320,7 @@ export default function AdminAIPage() {
                 <label>API base URL<input type="url" required value={config.base_url} onChange={(e) => setConfig({ ...config, base_url: e.target.value })} /></label>
                 <label>Chat model<input required value={config.chat_model} onChange={(e) => setConfig({ ...config, chat_model: e.target.value })} /></label>
                 <label>Embedding model<input required value={config.embedding_model} onChange={(e) => setConfig({ ...config, embedding_model: e.target.value })} /></label>
-                <p>Provider API key: <strong>{config.api_key_configured ? "Configured on the server" : "Not configured"}</strong>. To change it, update <code>QORDIC_AI_API_KEY</code> in the backend environment and restart the API.</p>
+                <p>Provider API key: <strong>{config.api_key_configured ? "Configured on the server" : "Not configured"}</strong>. To change it, update <code>{config.chat_provider === "groq" ? "GROQ_API_KEY" : "QORDIC_AI_API_KEY"}</code> in the backend environment and restart the API.{config.chat_provider === "groq" && <> Groq uses the model from <code>GROQ_MODEL</code>.</>}</p>
                 <p>Retrieval method: persistent SQLite-backed vector embeddings with cosine similarity. Chat model availability: <strong>{config.ai_available ? "Online" : "Offline"}</strong>.</p>
                 <button type="submit">Save provider settings</button>
               </form>

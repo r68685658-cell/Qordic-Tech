@@ -43,8 +43,10 @@ private key or Gmail password in frontend variables.
 
 - `QORDIC_ADMIN_PASSWORD` — unique, long administrator password.
 - `QORDIC_JWT_SECRET` — unique random secret of at least 32 bytes.
-- `QORDIC_AI_API_KEY` — optional provider key; without it, AI provider features
-  remain unavailable.
+- `GROQ_API_KEY` and `GROQ_MODEL` — server-only Groq chat credentials/model.
+- `QORDIC_AI_API_KEY` — optional OpenAI-compatible embedding provider key.
+  Without it, Groq chat still works but indexed company-knowledge retrieval is
+  unavailable.
 - `QORDIC_AI_BASE_URL`, `QORDIC_AI_CHAT_MODEL`, and
   `QORDIC_AI_EMBEDDING_MODEL` — optional provider settings.
 - `QORDIC_ALLOWED_ORIGINS` — only needed for cross-origin browser requests;
