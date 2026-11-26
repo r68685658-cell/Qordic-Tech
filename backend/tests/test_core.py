@@ -10,6 +10,35 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app import main
 
 
+def test_vercel_runtime_uses_writable_ephemeral_database_dir(monkeypatch, tmp_path):
+    monkeypatch.delenv("QORDIC_DATA_DIR", raising=False)
+    monkeypatch.setenv("VERCEL", "1")
+
+    assert main.default_data_dir(tmp_path) == Path("/tmp")
+
+    monkeypatch.delenv("VERCEL")
+    assert main.default_data_dir(tmp_path) == (tmp_path / "data").resolve()
+
+
+def test_live_health_reports_configuration_without_exposing_credentials(monkeypatch, tmp_path):
+    monkeypatch.setattr(main, "DB_PATH", tmp_path / "health.sqlite3")
+    monkeypatch.setattr(main, "GROQ_API_KEY", "do-not-return-this-secret")
+    monkeypatch.setattr(main, "GROQ_MODEL", "test-model")
+
+    with TestClient(main.app) as client:
+        response = client.get("/api/health/live")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "status": "ok",
+        "backend": "online",
+        "provider": "groq",
+        "provider_configured": True,
+        "chat_model": "test-model",
+    }
+    assert "do-not-return-this-secret" not in response.text
+
+
 def test_text_chunking_respects_limits_and_overlap():
     text = "word " * 600
     chunks = main.split_text(text)
@@ -74,8 +103,10 @@ def test_system_prompt_always_includes_verified_company_services():
     assert "even when no retrieved reference excerpts are available" in prompt
     assert "Suggest WhatsApp" in prompt
     assert "/start-project" in prompt
-    assert "do not add unlisted deliverables, technologies, platforms, processes, tactics, features" in prompt
-    assert "do not claim specific programming stacks, e-commerce, CMS, maintenance/support" in prompt
+    assert "Treat each service description as a closed set of facts" in prompt
+    assert "Do not add keyword research, on-page or technical SEO, backlinks, rankings, analytics, or reporting" in prompt
+    assert "do not claim specific programming stacks, e-commerce, CMS, or maintenance/support" in prompt
+    assert "do not promise measurable results, more sales, leads, or visitors" in prompt
     assert "[No additional indexed company knowledge is currently available.]" in prompt
 
 

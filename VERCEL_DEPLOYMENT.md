@@ -55,13 +55,13 @@ private key or Gmail password in frontend variables.
 Keep all backend credentials in backend/server environment settings. Never
 commit `.env.local`, `backend/.env`, API keys, passwords, or JWT secrets.
 
-## Storage limitation to address before production
+## Storage limitation
 
-The backend currently stores conversations, knowledge, and inquiries in a
-local SQLite file under `backend/data` by default. Vercel's function filesystem
-is not durable shared storage across invocations/deployments. Do not rely on
-this SQLite file for persistent production records; migrate the storage layer
-to a managed persistent database before using the backend for production data.
+Locally, the backend stores data under `backend/data`. On Vercel, it defaults
+to `/tmp` so SQLite can initialize on the function's writable filesystem.
+Vercel's function filesystem is ephemeral and not shared across instances or
+deployments, so migrate to a managed persistent database before relying on
+production knowledge, conversations, or inquiries.
 
 ## Deploy and verify
 
@@ -75,8 +75,10 @@ to a managed persistent database before using the backend for production data.
 5. Review the routing configuration and deploy only after confirming the
    service names, public paths, and security settings.
 6. Verify `/`, a client route such as `/contact` after refresh, and
-   `/api/health`. Confirm API requests return JSON rather than the frontend
-   HTML. Also inspect the app and backend build/runtime logs.
+   `/api/health/live`. Confirm it returns JSON with `backend: "online"` and
+   `provider_configured: true` without exposing credentials. Then check
+   `/api/health` and test a real chat request. Also inspect the app and backend
+   build/runtime logs.
 
 This repository configuration has not been deployed to Vercel. A successful
 local build does not verify the Vercel project settings or a live deployment.
