@@ -68,8 +68,15 @@ export function FeatureGrid({
           <Card
             className="h-full p-5 sm:p-6"
             interactive
+            data-cursor={item.cursor}
             key={item.title}
           >
+            {item.visual && (
+              <div className={`service-card-visual service-card-visual-${item.visual}`} aria-hidden="true">
+                <span><Icon size={28} strokeWidth={1.7} /></span>
+                <i />
+              </div>
+            )}
             <span className="mb-5 grid size-12 place-items-center rounded-2xl bg-violet/10 text-violet-strong">
               <Icon aria-hidden="true" size={22} />
             </span>

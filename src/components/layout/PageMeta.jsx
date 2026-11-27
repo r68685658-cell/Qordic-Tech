@@ -15,7 +15,7 @@ export function PageMeta({ page }) {
       <meta property="og:site_name" content="Qordic Technologies" />
       <meta
         name="theme-color"
-        content={theme === "dark" ? "#0e0c18" : "#fbfaff"}
+        content={theme === "dark" ? "#050313" : "#fbfaff"}
       />
       {page.schema && (
         <script type="application/ld+json">

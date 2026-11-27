@@ -234,7 +234,7 @@ export default function HomePage() {
 
 function SectionTitle({ eyebrow, title, description, sectionAction, center = false }) {
   return (
-    <div className={`mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between ${center ? "mx-auto text-center" : ""}`}>
+    <Reveal className={`mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between ${center ? "mx-auto text-center" : ""}`}>
       <div className={center ? "mx-auto max-w-3xl" : "max-w-3xl"}>
         <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-violet-strong">
           {eyebrow}
@@ -253,6 +253,6 @@ function SectionTitle({ eyebrow, title, description, sectionAction, center = fal
           <ArrowUpRight aria-hidden="true" size={16} />
         </Link>
       )}
-    </div>
+    </Reveal>
   );
 }

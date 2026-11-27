@@ -5,7 +5,7 @@ import {
   ArrowUpRight,
   Bot,
   Boxes,
-  BriefcaseBusiness,
+  Building2,
   Check,
   Cloud,
   Code2,
@@ -17,7 +17,9 @@ import {
   Map,
   MessageCircle,
   Paintbrush2,
+  Play,
   Rocket,
+  Search,
   ShieldCheck,
   Smartphone,
   Sparkles,
@@ -32,50 +34,62 @@ import { Container } from "../../ui/Container.jsx";
 const technologyCards = [
   {
     icon: Code2,
+    title: "Website Development",
+    description: "Professional, responsive websites for businesses, startups, and individuals.",
+    capabilities: ["Modern websites", "Responsive layouts", "Better user experiences"],
+    visual: "browser",
+    cursor: "code",
+    to: "/services#websites",
+    label: "Explore website services",
+  },
+  {
+    icon: Code2,
     title: "Software Development",
-    description: "Purpose-built applications for business workflows that off-the-shelf tools do not address.",
-    capabilities: ["Custom platforms", "Business workflows", "Workflow tools"],
+    description: "Custom software shaped around business requirements and operational needs.",
+    capabilities: ["Custom solutions", "Workflow improvements", "Business operations"],
+    visual: "software",
+    cursor: "code",
     to: "/services#custom-software",
     label: "Explore software",
   },
   {
-    icon: Globe2,
-    title: "Web Development",
-    description: "Responsive websites and portals that make information and important tasks easier to reach.",
-    capabilities: ["Business websites", "Customer portals", "Responsive experiences"],
-    to: "/services#websites",
-    label: "Explore web services",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile Applications",
-    description: "Mobile products planned around user needs and how they connect to your services and data.",
-    capabilities: ["Mobile journeys", "Connected services", "Staff and customer apps"],
-    to: "/services#mobile-apps",
-    label: "Explore mobile apps",
-  },
-  {
-    icon: Bot,
-    title: "AI & Automation",
-    description: "Explore conversational tools and practical automation for clearly defined use cases.",
-    capabilities: ["Chatbots", "Knowledge experiences", "Workflow automation"],
-    to: "/services#ai-chatbots",
-    label: "Explore AI services",
-  },
-  {
-    icon: Cloud,
-    title: "Cloud & Integrations",
-    description: "Consider how cloud platforms, APIs and existing systems can work together for your project.",
-    capabilities: ["System integrations", "Connected data", "Cloud platforms"],
-    to: "/services#custom-software",
-    label: "Explore integrations",
-  },
-  {
-    icon: BriefcaseBusiness,
-    title: "Digital Solutions",
-    description: "Bring software, operations and ongoing support together around your business requirements.",
-    capabilities: ["Real estate software", "Business support", "Ongoing care"],
+    icon: Paintbrush2,
+    title: "Graphic Designing",
+    description: "Creative visuals for branding, promotion, social media, and business needs.",
+    capabilities: ["Branding materials", "Promotional graphics", "Social media designs"],
+    visual: "design",
+    cursor: "design",
     to: "/services",
+    label: "Explore design services",
+  },
+  {
+    icon: Search,
+    title: "Search Engine Optimization",
+    description: "Improve search visibility, optimize website content, and reach relevant audiences organically.",
+    capabilities: ["Search visibility", "Content optimization", "Organic reach"],
+    visual: "search",
+    cursor: "search",
+    to: "/services",
+    label: "Discuss SEO",
+  },
+  {
+    icon: Play,
+    title: "Video Editing",
+    description: "Polished video content for promotion, social media, presentations, and digital media.",
+    capabilities: ["Promotional videos", "Social content", "Business presentations"],
+    visual: "video",
+    cursor: "video",
+    to: "/services",
+    label: "Discuss video editing",
+  },
+  {
+    icon: Building2,
+    title: "Real Estate Solutions",
+    description: "Digital solutions that help real estate businesses present properties and promote services.",
+    capabilities: ["Property presentation", "Digital promotion", "Business solutions"],
+    visual: "property",
+    cursor: "property",
+    to: "/services#real-estate",
     label: "Explore all services",
   },
 ];
@@ -140,7 +154,7 @@ const technologyAreas = [
   { icon: Boxes, title: "Business platforms", description: "Business and real-estate workflows and capabilities." },
 ];
 
-function SpotlightCard({ className = "", children, ...props }) {
+function SpotlightCard({ className = "", children, cursor, ...props }) {
   function updateTilt(event) {
     if (event.pointerType !== "mouse") return;
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -162,6 +176,7 @@ function SpotlightCard({ className = "", children, ...props }) {
   return (
     <article
       {...props}
+      data-cursor={cursor}
       className={`phase8-tilt ${className}`}
       onPointerMove={updateTilt}
       onPointerLeave={resetTilt}
@@ -176,7 +191,15 @@ export function TechnologyUniverse() {
     <div className="phase8-universe-grid">
       {technologyCards.map(({ icon: Icon, ...item }, index) => (
         <Reveal key={item.title} delay={(index % 3) * 0.045}>
-          <SpotlightCard className="phase8-universe-card">
+          <SpotlightCard className="phase8-universe-card" cursor={item.cursor}>
+            <div className={`phase8-service-visual phase8-service-${item.visual}`} aria-hidden="true">
+              <span className="phase8-service-window">
+                <span className="phase8-service-window-dots"><i /><i /><i /></span>
+                <Icon size={28} strokeWidth={1.6} />
+                <span className="phase8-service-bars"><i /><i /><i /></span>
+              </span>
+              <i className="phase8-service-orbit" />
+            </div>
             <span className="phase8-card-icon"><Icon size={22} aria-hidden="true" /></span>
             <h3>{item.title}</h3>
             <p>{item.description}</p>

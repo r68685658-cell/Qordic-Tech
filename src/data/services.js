@@ -15,6 +15,8 @@ export const serviceAreas = [
     id: "real-estate",
     href: "real-estate-details",
     icon: "home",
+    visual: "property",
+    cursor: "property",
     title: "Real Estate Software",
     description:
       "Support property-focused workflows with connected information for teams, buyers, tenants or other stakeholders.",
@@ -23,6 +25,8 @@ export const serviceAreas = [
     id: "custom-software",
     href: "custom-details",
     icon: "code",
+    visual: "software",
+    cursor: "code",
     title: "Custom Software",
     description:
       "Build a web platform, internal tool or workflow application for a need your existing products don’t address.",
@@ -31,6 +35,8 @@ export const serviceAreas = [
     id: "mobile-apps",
     href: "mobile-details",
     icon: "phone",
+    visual: "browser",
+    cursor: "code",
     title: "Mobile Applications",
     description:
       "Plan mobile experiences for customers or staff, including their relationship to your web services and data.",
@@ -39,6 +45,8 @@ export const serviceAreas = [
     id: "ai-chatbots",
     href: "ai-details",
     icon: "bot",
+    visual: "software",
+    cursor: "code",
     title: "AI Chatbots",
     description:
       "Explore conversational tools for customer questions, internal knowledge access or other defined use cases.",
@@ -47,6 +55,8 @@ export const serviceAreas = [
     id: "websites",
     href: "websites-details",
     icon: "globe",
+    visual: "browser",
+    cursor: "code",
     title: "Websites & Portals",
     description:
       "Create responsive websites and digital portals that make information and key actions easier to find.",
@@ -55,6 +65,8 @@ export const serviceAreas = [
     id: "business-support",
     href: "business-support-details",
     icon: "business",
+    visual: "software",
+    cursor: "code",
     title: "Outsourcing & BPO Support",
     description:
       "Discuss delegating defined business tasks to a support arrangement with clear responsibilities and handoffs.",
@@ -63,9 +75,41 @@ export const serviceAreas = [
     id: "support",
     href: "support-details",
     icon: "headset",
+    visual: "support",
+    cursor: "code",
     title: "Maintenance & Ongoing Support",
     description:
       "Plan continued care for software and systems, from agreed maintenance through to prioritized improvements.",
+  },
+  {
+    id: "graphic-design",
+    href: "graphic-design-details",
+    icon: "sparkles",
+    visual: "design",
+    cursor: "design",
+    title: "Graphic Designing",
+    description:
+      "Create branding materials, promotional graphics, social media designs and other business-related visual content.",
+  },
+  {
+    id: "seo",
+    href: "seo-details",
+    icon: "activity",
+    visual: "search",
+    cursor: "search",
+    title: "Search Engine Optimization (SEO)",
+    description:
+      "Improve website visibility in search engines, optimize website content and help businesses reach relevant audiences organically.",
+  },
+  {
+    id: "video-editing",
+    href: "video-editing-details",
+    icon: "sparkles",
+    visual: "video",
+    cursor: "video",
+    title: "Video Editing",
+    description:
+      "Edit promotional videos, social media content, business presentations and other digital media.",
   },
 ];
 
@@ -336,6 +380,111 @@ export const serviceDetails = [
       },
     ],
   },
+  {
+    id: "graphic-design-details",
+    number: "08",
+    kicker: "Visual communication",
+    title: "Graphic",
+    accent: "Designing",
+    visual: "design",
+    imageAlt: "",
+    description:
+      "Create visual content for branding, promotion, social media and other business-related needs.",
+    problem:
+      "Businesses need clear, consistent visuals to communicate their identity and present information across channels.",
+    approach:
+      "Understand the audience and purpose, agree the visual direction and create materials for the intended use.",
+    inquiry: "Discuss graphic design",
+    need: "Graphic Designing",
+    estimate: "Plan your design brief",
+    features: [
+      {
+        icon: "sparkles",
+        title: "Branding materials",
+        description: "Develop visual materials that present a business identity.",
+      },
+      {
+        icon: "activity",
+        title: "Promotional graphics",
+        description: "Create graphics for business promotions and communications.",
+      },
+      {
+        icon: "message",
+        title: "Social media designs",
+        description: "Prepare visual content for social media channels.",
+      },
+    ],
+  },
+  {
+    id: "seo-details",
+    number: "09",
+    kicker: "Organic visibility",
+    title: "Search Engine",
+    accent: "Optimization",
+    visual: "search",
+    imageAlt: "",
+    description:
+      "Improve website visibility in search engines, optimize website content and help businesses reach relevant audiences organically.",
+    problem:
+      "Relevant audiences may have difficulty discovering a business when its website content and search visibility need attention.",
+    approach:
+      "Review the website and its content needs, then define an SEO scope focused on visibility, content optimization and audience relevance.",
+    inquiry: "Discuss SEO",
+    need: "Search Engine Optimization",
+    estimate: "Discuss SEO needs",
+    features: [
+      {
+        icon: "globe",
+        title: "Search visibility",
+        description: "Focus on improving how a website is presented in search engines.",
+      },
+      {
+        icon: "bookOpen",
+        title: "Website content optimization",
+        description: "Optimize website content in line with business information and audience needs.",
+      },
+      {
+        icon: "activity",
+        title: "Relevant organic reach",
+        description: "Help a business reach relevant audiences through organic search visibility.",
+      },
+    ],
+  },
+  {
+    id: "video-editing-details",
+    number: "10",
+    kicker: "Digital media",
+    title: "Video",
+    accent: "Editing",
+    visual: "video",
+    imageAlt: "",
+    description:
+      "Edit promotional videos, social media content, business presentations and other digital media.",
+    problem:
+      "Useful footage and ideas need to be shaped into clear video content for the intended audience and platform.",
+    approach:
+      "Discuss the purpose, audience and source material, then plan the editing scope around the final use.",
+    inquiry: "Discuss video editing",
+    need: "Video Editing",
+    estimate: "Plan a video brief",
+    features: [
+      {
+        icon: "sparkles",
+        title: "Promotional videos",
+        description: "Edit video content for business and promotional communication.",
+      },
+      {
+        icon: "message",
+        title: "Social media content",
+        description: "Prepare edited video content for social media use.",
+      },
+      {
+        icon: "bookOpen",
+        title: "Business presentations",
+        description: "Edit video material for business presentations and digital media.",
+      },
+    ],
+  },
 ];
 
 export const servicesLeadForm = {
@@ -350,6 +499,9 @@ export const servicesLeadForm = {
     { value: "Websites and Portals", label: "Websites & Portals" },
     { value: "Outsourcing and BPO Support", label: "Outsourcing & BPO Support" },
     { value: "Ongoing Support", label: "Maintenance & Ongoing Support" },
+    { value: "Graphic Designing", label: "Graphic Designing" },
+    { value: "Search Engine Optimization", label: "SEO" },
+    { value: "Video Editing", label: "Video Editing" },
     { value: "Other", label: "Not sure yet" },
   ],
   privacy:

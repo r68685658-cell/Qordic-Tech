@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PageMeta } from "./components/layout/PageMeta.jsx";
 import { SiteLayout } from "./components/layout/SiteLayout.jsx";
@@ -39,7 +40,7 @@ export default function App() {
     <BrowserRouter>
       <Suspense fallback={<div className="min-h-[55vh]" aria-label="Loading page" />}>
         <Routes>
-          <Route path="/admin/ai" element={<AdminAIPage />} />
+          <Route path="/admin/ai" element={<PageTransition><AdminAIPage /></PageTransition>} />
           <Route element={<SiteLayout />}>
             {pages.map((page) => {
               const Page = routeComponents[page.path];
@@ -49,10 +50,10 @@ export default function App() {
                   key={page.path}
                   path={page.path}
                   element={
-                    <>
+                    <PageTransition>
                       <PageMeta page={page} />
                       <Page />
-                    </>
+                    </PageTransition>
                   }
                 />
               );
@@ -60,7 +61,7 @@ export default function App() {
             <Route
               path="*"
               element={
-                <>
+                <PageTransition>
                   <PageMeta
                     page={{
                       title: "Page not found | Qordic Technologies",
@@ -70,12 +71,27 @@ export default function App() {
                   <main id="main" className="flex-1 px-4 py-24 text-center">
                     <h1 className="text-4xl font-bold">Page not found</h1>
                   </main>
-                </>
+                </PageTransition>
               }
             />
           </Route>
         </Routes>
       </Suspense>
     </BrowserRouter>
+  );
+}
+
+function PageTransition({ children }) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      className="route-page-transition"
+      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: reduceMotion ? 0 : 0.24, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
   );
 }

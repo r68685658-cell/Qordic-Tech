@@ -16,7 +16,7 @@ export function ThemeProvider({ children }) {
     document.documentElement.dataset.theme = nextTheme;
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", nextTheme === "dark" ? "#0e0c18" : "#fbfaff");
+      ?.setAttribute("content", nextTheme === "dark" ? "#050313" : "#fbfaff");
     setTheme(nextTheme);
 
     try {

@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Palette, Play, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FeatureGrid } from "../shared/FeatureGrid.jsx";
 import { Reveal } from "../shared/Reveal.jsx";
@@ -6,7 +6,15 @@ import { Button } from "../../ui/Button.jsx";
 import { Container } from "../../ui/Container.jsx";
 import { Section } from "../../ui/Section.jsx";
 
+const serviceVisuals = {
+  design: Palette,
+  search: Search,
+  video: Play,
+};
+
 export function ServiceDetailsSection({ service, index }) {
+  const VisualIcon = serviceVisuals[service.visual];
+
   return (
     <Section
       as="section"
@@ -41,21 +49,32 @@ export function ServiceDetailsSection({ service, index }) {
           </div>
         </Reveal>
         <Reveal delay={0.04}>
-          <figure className="service-image-frame mb-8">
-            <img
-              alt={service.imageAlt}
-              className="service-image"
-              decoding="async"
-              height="800"
-              loading="lazy"
-              sizes="(max-width: 819px) 100vw, 1180px"
-              src={service.image}
-              width="1200"
-            />
-            <span className="service-image-label" aria-hidden="true">
-              {service.number} / {service.kicker}
-            </span>
-          </figure>
+          {service.image ? (
+            <figure className="service-image-frame mb-8">
+              <img
+                alt={service.imageAlt}
+                className="service-image"
+                decoding="async"
+                height="800"
+                loading="lazy"
+                sizes="(max-width: 819px) 100vw, 1180px"
+                src={service.image}
+                width="1200"
+              />
+              <span className="service-image-label" aria-hidden="true">
+                {service.number} / {service.kicker}
+              </span>
+            </figure>
+          ) : (
+            <figure className={`service-image-frame service-illustration service-illustration-${service.visual} mb-8`} aria-hidden="true">
+              <div className="service-illustration-orbit" />
+              <div className="service-illustration-panel">
+                <VisualIcon size={62} strokeWidth={1.4} />
+                <span><i /><i /><i /></span>
+              </div>
+              <span className="service-image-label">{service.number} / {service.kicker}</span>
+            </figure>
+          )}
         </Reveal>
         <Reveal delay={0.06}>
           <div className="service-approach-grid">

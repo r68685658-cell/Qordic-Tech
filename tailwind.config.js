@@ -19,9 +19,9 @@ export default {
         line: "var(--color-line)",
         focus: "var(--color-focus)",
         danger: "var(--color-danger)",
-        violet: "#7c5cff",
-        "violet-strong": "#5638bf",
-        coral: "#ff6a88",
+        violet: "#7000ff",
+        "violet-strong": "#a020f0",
+        coral: "#d000ff",
         amber: "#ffb84d",
       },
       maxWidth: {
@@ -37,7 +37,7 @@ export default {
         lift: "0 18px 60px rgb(42 26 92 / 12%)",
       },
       backgroundImage: {
-        "brand-gradient": "linear-gradient(115deg, #6043d6, #c34665)",
+        "brand-gradient": "linear-gradient(115deg, #7000ff, #a020f0 55%, #426bff)",
       },
     },
   },

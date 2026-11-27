@@ -34,6 +34,30 @@ export const estimateProjectTypes = [
     requirements: ["Business process mapping", "Inventory or records", "User roles", "Reporting", "API integration", "Data migration"],
   },
   {
+    label: "Graphic Designing",
+    value: "Graphic Designing",
+    description: "Branding materials, promotional graphics and social media designs.",
+    requirements: ["Branding materials", "Promotional graphics", "Social media designs", "Other visual content"],
+  },
+  {
+    label: "Search Engine Optimization",
+    value: "Search Engine Optimization",
+    description: "Website search visibility, content optimization and organic audience reach.",
+    requirements: ["Website visibility", "Website content", "Relevant audiences", "SEO scope discussion"],
+  },
+  {
+    label: "Video Editing",
+    value: "Video Editing",
+    description: "Edited promotional videos, social content, presentations or other digital media.",
+    requirements: ["Promotional video", "Social media content", "Business presentation", "Other digital media"],
+  },
+  {
+    label: "Real Estate Solutions",
+    value: "Real Estate Solutions",
+    description: "Digital solutions for presenting properties and promoting real estate services.",
+    requirements: ["Property presentation", "Digital promotion", "Business requirements"],
+  },
+  {
     label: "AI Chatbot",
     value: "AI Chatbot",
     description: "A conversational tool for a defined knowledge or support use case.",

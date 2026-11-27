@@ -1,11 +1,11 @@
-import { lazy, Suspense, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowUpRight, Sparkles } from "lucide-react";
 import { Badge } from "../../ui/Badge.jsx";
 import { Button } from "../../ui/Button.jsx";
 import { Container } from "../../ui/Container.jsx";
-import { useTheme } from "../../layout/ThemeProvider.jsx";
 import { Reveal } from "./Reveal.jsx";
+import { RotatingTagline } from "./RotatingTagline.jsx";
 
 const HeroScene = lazy(() => import("./HeroScene.jsx"));
 
@@ -17,11 +17,48 @@ export function PageHero({
   primaryAction,
   secondaryAction,
   note,
+  taglines,
+  splitTitle = false,
   visual = false,
   scrollTarget,
   visualLabel = "Illustration of connected business workflows",
 }) {
   const reduceMotion = useReducedMotion();
+  const accessibleTitle = [title, accent].filter(Boolean).join(" ");
+
+  function renderTitlePart(text, startIndex = 0, gradientText = false) {
+    let letterIndex = startIndex;
+    let gradientLetterIndex = 0;
+    const gradientLetterCount = Array.from(text.replace(/\s/g, "")).length;
+    return text.split(" ").map((word, wordIndex) => {
+      const currentWord = Array.from(word).map((letter) => {
+        const index = letterIndex++;
+        const gradientPosition = gradientLetterCount > 1
+          ? (gradientLetterIndex / (gradientLetterCount - 1)) * 100
+          : 0;
+        gradientLetterIndex += 1;
+        return (
+          <motion.span
+            className={`hero-title-letter${gradientText ? " hero-title-letter-accent" : ""}`}
+            key={`${wordIndex}-${index}`}
+            style={gradientText ? { backgroundPosition: `${gradientPosition}% 0` } : undefined}
+            initial={reduceMotion ? false : { opacity: 0, y: "0.55em", rotateX: -45 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.42, delay: reduceMotion ? 0 : 0.28 + index * 0.018, ease: [0.2, 0.8, 0.2, 1] }}
+          >
+            {letter}
+          </motion.span>
+        );
+      });
+      letterIndex += 1;
+      return (
+        <span className="hero-title-word" key={`${word}-${wordIndex}`}>
+          {currentWord}
+          {wordIndex < text.split(" ").length - 1 ? "\u00a0" : ""}
+        </span>
+      );
+    });
+  }
 
   return (
     <section
@@ -52,16 +89,31 @@ export function PageHero({
           )}
           <motion.h1
             id="page-title"
-            className="max-w-[18ch] text-4xl font-extrabold leading-[1.04] tracking-[-0.06em] text-ink sm:text-6xl lg:text-7xl"
+            className="w-full max-w-full text-4xl font-extrabold leading-[1.12] tracking-[-0.045em] text-ink sm:text-6xl lg:text-7xl"
+            aria-label={splitTitle ? accessibleTitle : undefined}
             initial={reduceMotion ? false : { opacity: 0, y: 22, filter: "blur(8px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: reduceMotion ? 0 : 0.75, delay: reduceMotion ? 0 : 0.12, ease: [0.22, 1, 0.36, 1] }}
           >
-            {title}{" "}
-            {accent && <span className="bg-brand-gradient bg-clip-text text-transparent">{accent}</span>}
+            {splitTitle ? (
+              <span aria-hidden="true">
+                {renderTitlePart(title)}
+                {accent && (
+                  <span className="hero-title-accent">
+                    {renderTitlePart(accent, title.length + 1, true)}
+                  </span>
+                )}
+              </span>
+            ) : (
+              <>
+                {title}{" "}
+                {accent && <span className="bg-brand-gradient bg-clip-text text-transparent">{accent}</span>}
+              </>
+            )}
           </motion.h1>
+          {taglines && <RotatingTagline items={taglines} />}
           <motion.p
-            className="mt-6 max-w-prose text-base leading-relaxed text-muted sm:text-lg"
+            className={`${taglines ? "mt-3" : "mt-6"} max-w-prose text-base leading-relaxed text-muted sm:text-lg`}
             initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.6, delay: reduceMotion ? 0 : 0.25 }}
@@ -112,7 +164,17 @@ export function PageHero({
 
 function HeroVisual({ label }) {
   const visualRef = useRef(null);
-  const { theme } = useTheme();
+  const reduceMotion = useReducedMotion();
+  const [isCompact, setIsCompact] = useState(
+    () => window.matchMedia("(max-width: 819px), (prefers-reduced-motion: reduce)").matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 819px), (prefers-reduced-motion: reduce)");
+    const updateCompactMode = () => setIsCompact(mediaQuery.matches);
+    mediaQuery.addEventListener("change", updateCompactMode);
+    return () => mediaQuery.removeEventListener("change", updateCompactMode);
+  }, []);
 
   return (
     <div
@@ -122,9 +184,13 @@ function HeroVisual({ label }) {
       aria-label={label}
     >
       <div className="hero-scene-layer" aria-hidden="true">
-        <Suspense fallback={<div className="hero-scene-fallback" />}>
-          <HeroScene eventSource={visualRef} theme={theme} />
-        </Suspense>
+        {isCompact || reduceMotion ? (
+          <StaticHeroVisual />
+        ) : (
+          <Suspense fallback={<div className="hero-scene-fallback" />}>
+            <HeroScene eventSource={visualRef} />
+          </Suspense>
+        )}
       </div>
       <div className="hero-aura absolute inset-10 rounded-full bg-brand-gradient opacity-20 blur-3xl" aria-hidden="true" />
       <div className="hero-float-panel hero-network-panel absolute -left-2 top-1 z-10 rounded-2xl border border-line bg-surface/85 p-3 shadow-lift backdrop-blur-xl sm:-left-5">
@@ -138,6 +204,16 @@ function HeroVisual({ label }) {
         <span className="block text-xs font-bold text-ink">Digital workflows</span>
         <span className="mt-1 block text-[11px] text-muted">Software + support</span>
       </div>
+    </div>
+  );
+}
+
+function StaticHeroVisual() {
+  return (
+    <div className="hero-static-visual">
+      <span className="hero-static-orbit hero-static-orbit-one" />
+      <span className="hero-static-orbit hero-static-orbit-two" />
+      <img src="/assets/brand/qordic-mark.png" alt="" />
     </div>
   );
 }
