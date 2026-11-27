@@ -19,9 +19,9 @@ export default {
         line: "var(--color-line)",
         focus: "var(--color-focus)",
         danger: "var(--color-danger)",
-        violet: "#7000ff",
-        "violet-strong": "#a020f0",
-        coral: "#d000ff",
+        violet: "#2563eb",
+        "violet-strong": "#174fae",
+        coral: "#0891b2",
         amber: "#ffb84d",
       },
       maxWidth: {
@@ -33,11 +33,11 @@ export default {
         panel: "28px",
       },
       boxShadow: {
-        card: "0 8px 28px rgb(36 23 72 / 6%)",
-        lift: "0 18px 60px rgb(42 26 92 / 12%)",
+        card: "0 8px 28px rgb(24 43 76 / 6%)",
+        lift: "0 18px 60px rgb(13 45 93 / 12%)",
       },
       backgroundImage: {
-        "brand-gradient": "linear-gradient(115deg, #7000ff, #a020f0 55%, #426bff)",
+        "brand-gradient": "linear-gradient(115deg, #087fae, #2563eb 58%, #1749b5)",
       },
     },
   },

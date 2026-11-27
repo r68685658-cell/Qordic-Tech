@@ -19,7 +19,7 @@ export function CTASection({
       id={id}
       aria-labelledby={id ? `${id}-title` : undefined}
     >
-      <div className="cta-backdrop absolute inset-0 -z-10 bg-gradient-to-br from-violet to-[#5638bf]" />
+      <div className="cta-backdrop absolute inset-0 -z-10 bg-gradient-to-br from-violet to-[#1749b5]" />
       <div className="cta-orb absolute -right-24 -top-28 -z-10 size-80 rounded-full bg-coral/40 blur-3xl" />
       <Container className={form ? "grid items-center gap-10 lg:grid-cols-[1fr_0.9fr] lg:gap-16" : ""}>
         <Reveal className="max-w-3xl">

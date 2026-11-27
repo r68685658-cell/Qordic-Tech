@@ -109,7 +109,7 @@ function Network({ reducedMotion }) {
       routeCurves.map(
         (_, index) =>
           new MeshBasicMaterial({
-            color: index % 2 === 0 ? "#b49aff" : "#805cff",
+            color: index % 2 === 0 ? "#9accff" : "#5cadff",
             transparent: true,
             opacity: 0.82,
             blending: AdditiveBlending,
@@ -163,7 +163,7 @@ function Network({ reducedMotion }) {
         <mesh key={`node-${index}`} position={position} renderOrder={3}>
           <sphereGeometry args={[0.027, 12, 12]} />
           <meshBasicMaterial
-            color={index % 2 === 0 ? "#e1d6ff" : "#9b7aff"}
+            color={index % 2 === 0 ? "#d6eaff" : "#7abcff"}
             transparent
             opacity={0.96}
             blending={AdditiveBlending}
@@ -202,7 +202,7 @@ function DataPulse({ curve, index, phase, reducedMotion }) {
     >
       <sphereGeometry args={[0.018, 10, 10]} />
       <meshBasicMaterial
-        color="#e2d7ff"
+        color="#d7ebff"
         transparent
         opacity={0.9}
         blending={AdditiveBlending}
@@ -226,7 +226,7 @@ function OrbitRings({ reducedMotion }) {
       <mesh>
         <torusGeometry args={[1.42, 0.006, 8, 144]} />
         <meshBasicMaterial
-          color="#b29aff"
+          color="#9accff"
           transparent
           opacity={0.58}
           blending={AdditiveBlending}
@@ -236,7 +236,7 @@ function OrbitRings({ reducedMotion }) {
       <mesh rotation={[0.55, 0.15, 0.85]}>
         <torusGeometry args={[1.53, 0.004, 8, 144]} />
         <meshBasicMaterial
-          color="#7c5cff"
+          color="#5cadff"
           transparent
           opacity={0.35}
           blending={AdditiveBlending}
@@ -277,7 +277,7 @@ function BrandMark({ reducedMotion }) {
       <mesh position={[0, 0, -0.015]} renderOrder={4}>
         <torusGeometry args={[0.48, 0.012, 8, 96]} />
         <meshBasicMaterial
-          color="#a98aff"
+          color="#8ac4ff"
           transparent
           opacity={0.72}
           blending={AdditiveBlending}
@@ -312,7 +312,7 @@ function ParticleField({ reducedMotion }) {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        color="#c7b6ff"
+        color="#b6daff"
         size={0.014}
         transparent
         opacity={0.5}
@@ -356,7 +356,7 @@ function Globe({ reducedMotion, theme }) {
     }
   });
 
-  const earthColor = theme === "dark" ? "#e5e7ff" : "#ffffff";
+  const earthColor = theme === "dark" ? "#e5f2ff" : "#ffffff";
 
   return (
     <group ref={floatGroup}>
@@ -372,12 +372,12 @@ function Globe({ reducedMotion, theme }) {
               color={earthColor}
               roughness={0.76}
               metalness={0.04}
-              emissive={theme === "dark" ? "#f0f2ff" : "#d8d1ff"}
+              emissive={theme === "dark" ? "#f0f8ff" : "#d1e8ff"}
               emissiveIntensity={theme === "dark" ? 0.82 : 0.58}
               toneMapped={false}
             />
           </mesh>
-          <Atmosphere color={theme === "dark" ? "#9a78ff" : "#7250dc"} />
+          <Atmosphere color={theme === "dark" ? "#78bbff" : "#5096dc"} />
           <Network reducedMotion={reducedMotion} />
         </group>
         <BrandMark reducedMotion={reducedMotion} />
@@ -385,20 +385,20 @@ function Globe({ reducedMotion, theme }) {
       </group>
       <ParticleField reducedMotion={reducedMotion} />
       <pointLight
-        color={theme === "dark" ? "#ab89ff" : "#7c5cff"}
+        color={theme === "dark" ? "#89c4ff" : "#5cadff"}
         intensity={theme === "dark" ? 18 : 12}
         distance={6}
         position={[2.8, 1.6, 2.2]}
       />
       <pointLight
-        color="#5638bf"
+        color="#387bbf"
         intensity={8}
         distance={5}
         position={[-2.2, -1.4, -1.1]}
       />
       <ambientLight intensity={theme === "dark" ? 1.1 : 1.4} />
       <directionalLight
-        color="#f0ebff"
+        color="#ebf5ff"
         intensity={theme === "dark" ? 2.7 : 2}
         position={[3.5, 2, 4]}
       />
@@ -421,8 +421,8 @@ function createServiceLabel(label) {
   canvas.height = 96;
   const context = canvas.getContext("2d");
   if (!context) throw new Error("Unable to create the 3D service label canvas.");
-  context.fillStyle = "rgba(12, 10, 25, 0.78)";
-  context.strokeStyle = "rgba(164, 137, 255, 0.65)";
+  context.fillStyle = "rgba(10, 17, 25, 0.78)";
+  context.strokeStyle = "rgba(137, 196, 255, 0.65)";
   context.lineWidth = 3;
   context.beginPath();
   context.roundRect(5, 5, 502, 86, 30);
@@ -431,7 +431,7 @@ function createServiceLabel(label) {
   context.font = "600 34px Inter, Arial, sans-serif";
   context.textAlign = "center";
   context.textBaseline = "middle";
-  context.fillStyle = "#f4efff";
+  context.fillStyle = "#eff7ff";
   context.fillText(label, 256, 49, 470);
   const texture = new CanvasTexture(canvas);
   texture.colorSpace = SRGBColorSpace;
@@ -455,15 +455,15 @@ function ServiceObject({ kind }) {
       <group>
         <mesh castShadow receiveShadow>
           <boxGeometry args={[0.58, 0.4, 0.09]} />
-          <meshPhysicalMaterial color="#7970aa" metalness={0.78} roughness={0.25} />
+          <meshPhysicalMaterial color="#708daa" metalness={0.78} roughness={0.25} />
         </mesh>
         <mesh position={[0, -0.005, 0.052]}>
           <boxGeometry args={[0.5, 0.3, 0.015]} />
-          <meshBasicMaterial color="#101125" />
+          <meshBasicMaterial color="#101a25" />
         </mesh>
         <mesh position={[-0.11, 0.045, 0.064]}>
           <boxGeometry args={[0.18, 0.018, 0.01]} />
-          <meshBasicMaterial color="#a98aff" />
+          <meshBasicMaterial color="#8ac4ff" />
         </mesh>
         <mesh position={[0.11, -0.055, 0.064]}>
           <boxGeometry args={[0.18, 0.014, 0.01]} />
@@ -478,9 +478,9 @@ function ServiceObject({ kind }) {
       <group>
         <mesh scale={[1, 0.72, 0.3]} castShadow>
           <sphereGeometry args={[0.26, 28, 20]} />
-          <meshPhysicalMaterial color="#9d77ff" metalness={0.55} roughness={0.3} />
+          <meshPhysicalMaterial color="#77bbff" metalness={0.55} roughness={0.3} />
         </mesh>
-        {["#ff83cc", "#60c9ef", "#f7d27a", "#9dffdc"].map((color, index) => (
+        {["#83daff", "#60c9ef", "#f7d27a", "#9dffdc"].map((color, index) => (
           <mesh key={color} position={[-0.12 + index * 0.08, 0.12, 0.15]}>
             <sphereGeometry args={[0.035, 12, 12]} />
             <meshBasicMaterial color={color} />
@@ -488,7 +488,7 @@ function ServiceObject({ kind }) {
         ))}
         <mesh position={[0.18, -0.18, 0.1]} rotation={[0, 0, -0.65]}>
           <cylinderGeometry args={[0.025, 0.05, 0.22, 8]} />
-          <meshPhysicalMaterial color="#e5d8ff" metalness={0.85} roughness={0.2} />
+          <meshPhysicalMaterial color="#d8ebff" metalness={0.85} roughness={0.2} />
         </mesh>
       </group>
     );
@@ -503,12 +503,12 @@ function ServiceObject({ kind }) {
         </mesh>
         <mesh position={[0.17, -0.17, 0]} rotation={[0, 0, -0.65]}>
           <cylinderGeometry args={[0.035, 0.035, 0.22, 12]} />
-          <meshPhysicalMaterial color="#c6b7ff" metalness={0.8} roughness={0.2} />
+          <meshPhysicalMaterial color="#b7dbff" metalness={0.8} roughness={0.2} />
         </mesh>
         {[0.12, 0.2, 0.29].map((height, index) => (
           <mesh key={height} position={[-0.24 + index * 0.1, -0.23 + height / 2, 0]}>
             <boxGeometry args={[0.055, height, 0.045]} />
-            <meshBasicMaterial color={index === 2 ? "#65d9ff" : "#997bff"} />
+            <meshBasicMaterial color={index === 2 ? "#65d9ff" : "#7bbdff"} />
           </mesh>
         ))}
       </group>
@@ -522,7 +522,7 @@ function ServiceObject({ kind }) {
           <group key={x} position={[x, y, 0]}>
             <mesh castShadow>
               <boxGeometry args={[width, height, 0.13]} />
-              <meshPhysicalMaterial color="#67569b" metalness={0.72} roughness={0.28} />
+              <meshPhysicalMaterial color="#56789b" metalness={0.72} roughness={0.28} />
             </mesh>
             <mesh position={[0, 0, 0.071]}>
               <boxGeometry args={[0.045, 0.07, 0.01]} />
@@ -532,7 +532,7 @@ function ServiceObject({ kind }) {
         ))}
         <mesh position={[0.04, 0.34, 0]} rotation={[0, 0, Math.PI / 4]}>
           <boxGeometry args={[0.19, 0.19, 0.13]} />
-          <meshPhysicalMaterial color="#a98aff" metalness={0.65} roughness={0.28} />
+          <meshPhysicalMaterial color="#8ac4ff" metalness={0.65} roughness={0.28} />
         </mesh>
       </group>
     );
@@ -543,20 +543,20 @@ function ServiceObject({ kind }) {
       <group>
         <mesh castShadow>
           <boxGeometry args={[0.53, 0.36, 0.09]} />
-          <meshPhysicalMaterial color="#7762b4" metalness={0.78} roughness={0.25} />
+          <meshPhysicalMaterial color="#628bb4" metalness={0.78} roughness={0.25} />
         </mesh>
         <mesh position={[0, 0, 0.055]}>
           <boxGeometry args={[0.46, 0.28, 0.012]} />
-          <meshBasicMaterial color="#171326" />
+          <meshBasicMaterial color="#131c26" />
         </mesh>
         <mesh position={[0, 0, 0.08]} rotation={[0, 0, -Math.PI / 2]}>
           <coneGeometry args={[0.09, 0.16, 3]} />
-          <meshBasicMaterial color="#d5c7ff" />
+          <meshBasicMaterial color="#c7e3ff" />
         </mesh>
         {[-0.14, -0.04, 0.06, 0.16].map((x, index) => (
           <mesh key={x} position={[x, -0.25, 0.03]}>
             <boxGeometry args={[0.06, index % 2 ? 0.045 : 0.07, 0.025]} />
-            <meshBasicMaterial color={index % 2 ? "#70d5f7" : "#a789ff"} />
+            <meshBasicMaterial color={index % 2 ? "#70d5f7" : "#89c4ff"} />
           </mesh>
         ))}
       </group>
@@ -567,17 +567,17 @@ function ServiceObject({ kind }) {
     <group>
       <mesh position={[0, 0, 0]} castShadow>
         <boxGeometry args={[0.46, 0.33, 0.08]} />
-        <meshPhysicalMaterial color="#7460a9" metalness={0.82} roughness={0.23} />
+        <meshPhysicalMaterial color="#6084a9" metalness={0.82} roughness={0.23} />
       </mesh>
       {[-0.09, 0, 0.09].map((y, index) => (
         <group key={y} position={[-0.12, y, 0.055]}>
           <mesh>
             <sphereGeometry args={[0.035, 12, 12]} />
-            <meshBasicMaterial color={index === 1 ? "#6de3fa" : "#b69bff"} />
+            <meshBasicMaterial color={index === 1 ? "#6de3fa" : "#9bcdff"} />
           </mesh>
           <mesh position={[0.19, 0, 0]}>
             <boxGeometry args={[0.2, 0.014, 0.01]} />
-            <meshBasicMaterial color="#b4a1ed" />
+            <meshBasicMaterial color="#a1c7ed" />
           </mesh>
         </group>
       ))}
@@ -637,34 +637,34 @@ function QordicCore({ reducedMotion }) {
       <mesh castShadow receiveShadow>
         <torusGeometry args={[0.7, 0.19, 24, 96]} />
         <meshPhysicalMaterial
-          color="#8060cf"
+          color="#6097cf"
           metalness={0.92}
           roughness={0.2}
           clearcoat={1}
           clearcoatRoughness={0.13}
-          emissive="#31166f"
+          emissive="#16426f"
           emissiveIntensity={0.24}
         />
       </mesh>
       <mesh position={[0.74, -0.74, 0]} rotation={[0, 0, (-Math.PI * 3) / 4]} castShadow receiveShadow>
         <cylinderGeometry args={[0.185, 0.185, 0.9, 24]} />
         <meshPhysicalMaterial
-          color="#9a7be4"
+          color="#7bafe4"
           metalness={0.9}
           roughness={0.19}
           clearcoat={1}
-          emissive="#30146d"
+          emissive="#14406d"
           emissiveIntensity={0.26}
         />
       </mesh>
       <mesh position={[1.06, -1.06, 0]}>
         <sphereGeometry args={[0.185, 20, 20]} />
-        <meshPhysicalMaterial color="#ad92ee" metalness={0.92} roughness={0.18} clearcoat={1} />
+        <meshPhysicalMaterial color="#92c0ee" metalness={0.92} roughness={0.18} clearcoat={1} />
       </mesh>
       <mesh position={[0, 0, 0.02]}>
         <torusGeometry args={[0.47, 0.012, 8, 80]} />
         <meshBasicMaterial
-          color="#d6c6ff"
+          color="#c6e2ff"
           transparent
           opacity={0.52}
           blending={AdditiveBlending}
@@ -698,14 +698,14 @@ function QordicEcosystem({ reducedMotion }) {
       <group ref={pointerRef}>
         <mesh rotation={[Math.PI / 2, 0, 0]} scale={[1.76, 0.93, 1]}>
           <torusGeometry args={[1, 0.0045, 6, 160]} />
-          <meshBasicMaterial color="#7860d9" transparent opacity={0.24} blending={AdditiveBlending} depthWrite={false} />
+          <meshBasicMaterial color="#609cd9" transparent opacity={0.24} blending={AdditiveBlending} depthWrite={false} />
         </mesh>
         <OrbitingServices reducedMotion={reducedMotion} />
         <QordicCore reducedMotion={reducedMotion} />
         <group ref={ringRef} rotation={[1.04, 0.18, 0]}>
           <mesh>
             <torusGeometry args={[1.27, 0.012, 8, 144]} />
-            <meshBasicMaterial color="#b49aff" transparent opacity={0.74} blending={AdditiveBlending} depthWrite={false} />
+            <meshBasicMaterial color="#9accff" transparent opacity={0.74} blending={AdditiveBlending} depthWrite={false} />
           </mesh>
           <mesh rotation={[0.42, 0.2, 0.86]}>
             <torusGeometry args={[1.38, 0.007, 8, 144]} />
@@ -713,18 +713,18 @@ function QordicEcosystem({ reducedMotion }) {
           </mesh>
           <mesh rotation={[-0.55, 0.35, 0.2]}>
             <torusGeometry args={[1.49, 0.004, 6, 144]} />
-            <meshBasicMaterial color="#9175ff" transparent opacity={0.34} blending={AdditiveBlending} depthWrite={false} />
+            <meshBasicMaterial color="#75baff" transparent opacity={0.34} blending={AdditiveBlending} depthWrite={false} />
           </mesh>
         </group>
       </group>
       <ParticleField reducedMotion={reducedMotion} />
-      <pointLight color="#9e70ff" intensity={28} distance={7} position={[2.1, 1.8, 2.4]} />
+      <pointLight color="#70b7ff" intensity={28} distance={7} position={[2.1, 1.8, 2.4]} />
       <pointLight color="#35baff" intensity={16} distance={6} position={[-2.2, -1.2, 1.8]} />
-      <pointLight color="#7845db" intensity={12} distance={5} position={[0, 2.8, -1.8]} />
+      <pointLight color="#4590db" intensity={12} distance={5} position={[0, 2.8, -1.8]} />
       <ambientLight intensity={0.8} />
       <directionalLight
         castShadow
-        color="#eee6ff"
+        color="#e6f2ff"
         intensity={3.5}
         position={[3.5, 4, 5]}
         shadow-mapSize-width={512}

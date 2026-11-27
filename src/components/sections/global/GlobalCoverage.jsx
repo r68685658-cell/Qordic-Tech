@@ -40,7 +40,7 @@ export function GlobalCoverage({ coverage }) {
       </Reveal>
 
       <Reveal delay={0.06}>
-        <div className="flex h-full flex-col justify-center rounded-panel bg-gradient-to-br from-violet to-[#5638bf] p-6 text-white shadow-lift sm:p-8">
+        <div className="flex h-full flex-col justify-center rounded-panel bg-gradient-to-br from-violet to-[#1749b5] p-6 text-white shadow-lift sm:p-8">
           <span className="w-fit rounded-full border border-white/30 bg-white/10 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wide text-white">
             Delivery model
           </span>

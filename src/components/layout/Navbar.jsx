@@ -91,7 +91,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`site-header sticky top-0 z-50 border-b border-line/70 bg-page/80 shadow-[0_10px_40px_rgb(25_14_56/0.04)] backdrop-blur-2xl ${isScrolled ? "is-scrolled" : ""}`}
+      className={`site-header sticky top-0 z-50 border-b border-line/70 bg-page/80 shadow-[0_10px_40px_rgb(18_45_78/0.04)] backdrop-blur-2xl ${isScrolled ? "is-scrolled" : ""}`}
     >
       <Container className="relative">
         <div className="flex min-h-16 items-center gap-3 lg:min-h-[78px]">
