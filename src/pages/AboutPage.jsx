@@ -19,9 +19,9 @@ export default function AboutPage() {
     <main id="main">
       <PageHero {...aboutPageHero} />
       <Section as="section" id="company-story">
-        <Container>
+        <Container className="grid items-stretch gap-6 lg:grid-cols-[1.05fr_.95fr]">
           <Reveal>
-            <div className="max-w-3xl rounded-panel border border-amber/40 bg-amber/10 p-6 sm:p-8">
+            <div className="h-full rounded-panel border border-violet/35 bg-violet/10 p-6 sm:p-8">
               <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-violet-strong">
                 {companyStory.eyebrow}
               </p>
@@ -32,6 +32,22 @@ export default function AboutPage() {
                 {companyStory.description}
               </p>
             </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <figure className="service-image-frame about-story-image">
+              <img
+                className="service-image"
+                src="/assets/company/about-collaboration.webp"
+                alt="People collaborating around a laptop in a professional workspace."
+                width="1400"
+                height="900"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption className="about-story-caption">
+                Practical technology, shaped around people and their work
+              </figcaption>
+            </figure>
           </Reveal>
         </Container>
       </Section>

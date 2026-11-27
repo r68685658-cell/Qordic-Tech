@@ -120,8 +120,8 @@ export const serviceDetails = [
     kicker: "Property workflows",
     title: "Real Estate",
     accent: "Software",
-    image: "/assets/services/real-estate.jpg",
-    imageAlt: "Modern residential buildings representing property operations.",
+    image: "/assets/services/real-estate-solutions.webp",
+    imageAlt: "Contemporary residential property with premium open-plan architecture.",
     description:
       "Give property teams a clearer way to manage information and follow a customer journey, from enquiry through the next agreed steps.",
     problem:
@@ -387,7 +387,8 @@ export const serviceDetails = [
     title: "Graphic",
     accent: "Designing",
     visual: "design",
-    imageAlt: "",
+    image: "/assets/services/graphic-design.webp",
+    imageAlt: "Graphic design workspace with typography, interface layouts and creative tools.",
     description:
       "Create visual content for branding, promotion, social media and other business-related needs.",
     problem:
@@ -422,7 +423,8 @@ export const serviceDetails = [
     title: "Search Engine",
     accent: "Optimization",
     visual: "search",
-    imageAlt: "",
+    image: "/assets/services/seo-analytics.webp",
+    imageAlt: "Analytics dashboard with website traffic graphs and performance metrics.",
     description:
       "Improve website visibility in search engines, optimize website content and help businesses reach relevant audiences organically.",
     problem:
@@ -457,7 +459,8 @@ export const serviceDetails = [
     title: "Video",
     accent: "Editing",
     visual: "video",
-    imageAlt: "",
+    image: "/assets/services/video-editing.webp",
+    imageAlt: "Professional video editing timeline displayed on a workstation monitor.",
     description:
       "Edit promotional videos, social media content, business presentations and other digital media.",
     problem:

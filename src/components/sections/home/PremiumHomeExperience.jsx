@@ -37,6 +37,10 @@ const technologyCards = [
     title: "Website Development",
     description: "Professional, responsive websites for businesses, startups, and individuals.",
     capabilities: ["Modern websites", "Responsive layouts", "Better user experiences"],
+    image: "/assets/services/websites-portals.jpg",
+    imageAlt: "Desktop and laptop screens displaying a modern website and code.",
+    imageWidth: 1200,
+    imageHeight: 800,
     visual: "browser",
     cursor: "code",
     to: "/services#websites",
@@ -47,6 +51,10 @@ const technologyCards = [
     title: "Software Development",
     description: "Custom software shaped around business requirements and operational needs.",
     capabilities: ["Custom solutions", "Workflow improvements", "Business operations"],
+    image: "/assets/services/custom-software.jpg",
+    imageAlt: "Developer workstation with software code shown across computer screens.",
+    imageWidth: 1200,
+    imageHeight: 800,
     visual: "software",
     cursor: "code",
     to: "/services#custom-software",
@@ -57,6 +65,10 @@ const technologyCards = [
     title: "Graphic Designing",
     description: "Creative visuals for branding, promotion, social media, and business needs.",
     capabilities: ["Branding materials", "Promotional graphics", "Social media designs"],
+    image: "/assets/services/graphic-design.webp",
+    imageAlt: "Graphic design workspace with typography, interface layouts and creative tools.",
+    imageWidth: 1400,
+    imageHeight: 900,
     visual: "design",
     cursor: "design",
     to: "/services",
@@ -67,6 +79,10 @@ const technologyCards = [
     title: "Search Engine Optimization",
     description: "Improve search visibility, optimize website content, and reach relevant audiences organically.",
     capabilities: ["Search visibility", "Content optimization", "Organic reach"],
+    image: "/assets/services/seo-analytics.webp",
+    imageAlt: "Analytics dashboard with website traffic graphs and performance metrics.",
+    imageWidth: 1400,
+    imageHeight: 900,
     visual: "search",
     cursor: "search",
     to: "/services",
@@ -77,6 +93,10 @@ const technologyCards = [
     title: "Video Editing",
     description: "Polished video content for promotion, social media, presentations, and digital media.",
     capabilities: ["Promotional videos", "Social content", "Business presentations"],
+    image: "/assets/services/video-editing.webp",
+    imageAlt: "Professional video editing timeline displayed on a workstation monitor.",
+    imageWidth: 1400,
+    imageHeight: 900,
     visual: "video",
     cursor: "video",
     to: "/services",
@@ -87,6 +107,10 @@ const technologyCards = [
     title: "Real Estate Solutions",
     description: "Digital solutions that help real estate businesses present properties and promote services.",
     capabilities: ["Property presentation", "Digital promotion", "Business solutions"],
+    image: "/assets/services/real-estate-solutions.webp",
+    imageAlt: "Contemporary residential property with premium open-plan architecture.",
+    imageWidth: 1400,
+    imageHeight: 900,
     visual: "property",
     cursor: "property",
     to: "/services#real-estate",
@@ -192,13 +216,16 @@ export function TechnologyUniverse() {
       {technologyCards.map(({ icon: Icon, ...item }, index) => (
         <Reveal key={item.title} delay={(index % 3) * 0.045}>
           <SpotlightCard className="phase8-universe-card" cursor={item.cursor}>
-            <div className={`phase8-service-visual phase8-service-${item.visual}`} aria-hidden="true">
-              <span className="phase8-service-window">
-                <span className="phase8-service-window-dots"><i /><i /><i /></span>
-                <Icon size={28} strokeWidth={1.6} />
-                <span className="phase8-service-bars"><i /><i /><i /></span>
-              </span>
-              <i className="phase8-service-orbit" />
+            <div className={`phase8-service-visual phase8-service-${item.visual}`}>
+              <img
+                src={item.image}
+                alt={item.imageAlt}
+                width={item.imageWidth}
+                height={item.imageHeight}
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 819px) calc(100vw - 3rem), (max-width: 1279px) 30vw, 360px"
+              />
             </div>
             <span className="phase8-card-icon"><Icon size={22} aria-hidden="true" /></span>
             <h3>{item.title}</h3>
