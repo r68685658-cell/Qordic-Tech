@@ -66,6 +66,7 @@ export default function App() {
                     page={{
                       title: "Page not found | Qordic Technologies",
                       description: "The requested page could not be found.",
+                      noindex: true,
                     }}
                   />
                   <main id="main" className="flex-1 px-4 py-24 text-center">

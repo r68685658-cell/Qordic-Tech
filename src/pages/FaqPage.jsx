@@ -1,4 +1,5 @@
 import { Accordion } from "../components/sections/shared/Accordion.jsx";
+import { Helmet } from "react-helmet-async";
 import { PageHero } from "../components/sections/shared/PageHero.jsx";
 import { Button } from "../components/ui/Button.jsx";
 import { Container } from "../components/ui/Container.jsx";
@@ -10,8 +11,24 @@ import {
 } from "../data/faq.js";
 
 export default function FaqPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: frequentlyAskedQuestions.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <main id="main">
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+      </Helmet>
       <PageHero {...faqPageHero} />
       <Section as="section" id="faq-list">
         <Container className="max-w-content">

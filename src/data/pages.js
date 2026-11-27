@@ -1,19 +1,39 @@
+import { businessInfo } from "./business.js";
+
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Qordic Technologies",
+  "@id": "https://qordictech.com/#organization",
+  name: businessInfo.name,
+  alternateName: businessInfo.alternateName,
+  url: businessInfo.website,
+  logo: {
+    "@type": "ImageObject",
+    url: "https://qordictech.com/assets/brand/qordic-mark.png",
+  },
   description:
-    "Software, real estate technology, AI chatbot, mobile app and business support services.",
+    "Qordic Technologies provides custom software, web development, mobile applications, AI solutions, real estate technology and business support services.",
+  sameAs: businessInfo.socialProfiles,
+};
+
+export const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://qordictech.com/#website",
+  url: businessInfo.website,
+  name: "Qordic Technologies",
+  alternateName: "Qordic Tech",
+  publisher: { "@id": "https://qordictech.com/#organization" },
 };
 
 export const pages = [
   {
     path: "/",
     label: "Home",
-    title: "Qordic Technologies | Software & Business Support",
+    title: "Qordic Technologies | Software Development & Digital Solutions",
     description:
-      "Build the software and support your business needs. Explore custom software, real estate platforms, AI chatbots, mobile apps and outsourced support with Qordic Technologies.",
-    schema: organizationSchema,
+      "Qordic Technologies provides custom software development, web development, AI solutions, mobile apps and digital technology services for businesses in Pakistan and worldwide.",
+    schema: [organizationSchema, websiteSchema],
   },
   {
     path: "/privacy",
@@ -81,6 +101,7 @@ export const pages = [
     title: "Estimate | Qordic Technologies",
     description:
       "Share project requirements with Qordic Technologies for custom software, real estate platforms, websites, mobile apps and AI chatbot projects.",
+    noindex: true,
   },
   {
     path: "/contact",

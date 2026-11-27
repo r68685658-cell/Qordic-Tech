@@ -38,5 +38,18 @@
         "service": "app"
       }
     }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.qordictech.com"
+        }
+      ],
+      "destination": "https://qordictech.com/$1",
+      "permanent": true
+    }
   ]
 }
