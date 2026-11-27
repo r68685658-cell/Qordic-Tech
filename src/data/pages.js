@@ -11,9 +11,10 @@ const organizationSchema = {
     "@type": "ImageObject",
     url: "https://qordictech.com/assets/brand/qordic-mark.png",
   },
-  description:
-    "Qordic Technologies provides custom software, web development, mobile applications, AI solutions, real estate technology and business support services.",
-  sameAs: businessInfo.socialProfiles,
+  description: businessInfo.description,
+  ...(businessInfo.socialProfiles.length
+    ? { sameAs: businessInfo.socialProfiles }
+    : {}),
 };
 
 export const websiteSchema = {
@@ -30,10 +31,9 @@ export const pages = [
   {
     path: "/",
     label: "Home",
-    title: "Qordic Technologies | Software Development & Digital Solutions",
-    description:
-      "Qordic Technologies provides custom software development, web development, AI solutions, mobile apps and digital technology services for businesses in Pakistan and worldwide.",
-    schema: [organizationSchema, websiteSchema],
+    title: "Qordic Technologies (Qordic Tech) | Digital Services",
+    description: businessInfo.description,
+    schema: organizationSchema,
   },
   {
     path: "/privacy",
@@ -50,8 +50,7 @@ export const pages = [
     label: "Services",
     title: "Our Services | Qordic Technologies",
     description:
-      "Explore Qordic Technologies services: real estate software, custom software, mobile apps, AI chatbots, websites, outsourced support and ongoing maintenance.",
-    schema: organizationSchema,
+      "Explore Qordic Technologies services: custom and real-estate software, mobile apps, AI chatbots, websites and portals, BPO support, maintenance, graphic design, SEO and video editing.",
   },
   {
     path: "/solutions",
@@ -77,9 +76,9 @@ export const pages = [
   {
     path: "/about",
     label: "About",
-    title: "About | Qordic Technologies",
+    title: "About Qordic Technologies (Qordic Tech)",
     description:
-      "Learn about Qordic Technologies, our story, values and the team shaping software and support for growing businesses.",
+      "Qordic Technologies (Qordic Tech) offers software, web, mobile, AI, real-estate, BPO, design, SEO, video and ongoing support services for businesses.",
   },
   {
     path: "/blog",

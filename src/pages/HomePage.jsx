@@ -19,6 +19,7 @@ import {
 import { Button } from "../components/ui/Button.jsx";
 import { Container } from "../components/ui/Container.jsx";
 import { Section } from "../components/ui/Section.jsx";
+import { businessInfo } from "../data/business.js";
 import {
   capabilityItems,
   challengeFeatures,
@@ -35,6 +36,30 @@ export default function HomePage() {
   return (
     <main id="main">
       <PageHero {...homePageHero} />
+
+      <Section as="section" className="bg-surface/55" id="company-introduction">
+        <Container>
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-violet-strong">
+              About Qordic Tech
+            </p>
+            <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+              What is Qordic Technologies?
+            </h2>
+            <p className="mx-auto mt-4 max-w-prose text-base leading-relaxed text-muted">
+              {businessInfo.description}
+            </p>
+            <p className="mx-auto mt-3 max-w-prose text-base leading-relaxed text-muted">
+              {businessInfo.audience}
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <Button to="/about" variant="secondary">About the company</Button>
+              <Button to="/services" variant="secondary">Explore services</Button>
+              <Button to="/contact">Contact Qordic Tech</Button>
+            </div>
+          </div>
+        </Container>
+      </Section>
 
       <section
         className="trust-strip border-y border-line py-8"

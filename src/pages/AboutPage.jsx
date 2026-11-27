@@ -2,17 +2,18 @@ import { CTASection } from "../components/sections/shared/CTASection.jsx";
 import { FeatureGrid } from "../components/sections/shared/FeatureGrid.jsx";
 import { PageHero } from "../components/sections/shared/PageHero.jsx";
 import { Reveal } from "../components/sections/shared/Reveal.jsx";
+import { Link } from "react-router-dom";
 import { Button } from "../components/ui/Button.jsx";
-import { Card } from "../components/ui/Card.jsx";
 import { Container } from "../components/ui/Container.jsx";
 import { Section } from "../components/ui/Section.jsx";
+import { serviceAreas } from "../data/services.js";
 import {
   aboutPageHero,
   aboutSections,
   companyStory,
   companyValues,
-  teamMembers,
 } from "../data/about.js";
+import { businessInfo } from "../data/business.js";
 
 export default function AboutPage() {
   return (
@@ -20,7 +21,7 @@ export default function AboutPage() {
       <PageHero {...aboutPageHero} />
       <Section as="section" id="company-story">
         <Container className="grid items-stretch gap-6 lg:grid-cols-[1.05fr_.95fr]">
-          <Reveal>
+          <div>
             <div className="h-full rounded-panel border border-violet/35 bg-violet/10 p-6 sm:p-8">
               <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-violet-strong">
                 {companyStory.eyebrow}
@@ -29,10 +30,35 @@ export default function AboutPage() {
                 {companyStory.title}
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
+                {businessInfo.description}
+              </p>
+              <p className="mt-3 leading-relaxed text-muted">
                 {companyStory.description}
               </p>
+              <p className="mt-3 leading-relaxed text-muted">
+                To discuss a requirement, visit our contact page or start a project inquiry.
+              </p>
+              <nav className="mt-5" aria-label="Qordic Technologies service details">
+                <p className="mb-2 text-sm font-bold text-ink">Explore service details:</p>
+                <ul className="flex flex-wrap gap-2">
+                  {serviceAreas.map((service) => (
+                    <li key={service.id}>
+                      <Link
+                        className="inline-flex rounded-full border border-line px-3 py-1.5 text-sm font-semibold text-ink transition-colors hover:border-violet hover:text-violet-strong"
+                        to={`/services#${service.href}`}
+                      >
+                        {service.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Button to="/contact" variant="secondary">Contact Qordic Tech</Button>
+                <Button to="/services" variant="secondary">View all services</Button>
+              </div>
             </div>
-          </Reveal>
+          </div>
           <Reveal delay={0.08}>
             <figure className="service-image-frame about-story-image">
               <img
@@ -67,43 +93,24 @@ export default function AboutPage() {
           <FeatureGrid items={companyValues} columns={4} />
         </Container>
       </Section>
-      <Section as="section" id="team">
+      <Section as="section" id="contact-company">
         <Container>
           <div className="mb-9 max-w-3xl">
             <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-violet-strong">
-              {aboutSections.team.eyebrow}
+              {aboutSections.contact.eyebrow}
             </p>
             <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
-              {aboutSections.team.title}{" "}
+              {aboutSections.contact.title}{" "}
               <span className="bg-brand-gradient bg-clip-text text-transparent">
-                {aboutSections.team.accent}
+                {aboutSections.contact.accent}
               </span>
             </h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {teamMembers.map((person, index) => (
-              <Reveal key={index}>
-                <Card className="flex items-center gap-4">
-                  <span
-                    className="grid size-14 shrink-0 place-items-center rounded-2xl bg-brand-gradient text-xl font-extrabold text-white"
-                    aria-hidden="true"
-                  >
-                    Q
-                  </span>
-                  <span>
-                    <strong className="block text-base font-bold text-ink">
-                      {person.name}
-                    </strong>
-                    <span className="mt-1 block text-sm text-muted">
-                      {person.role}
-                    </span>
-                  </span>
-                </Card>
-              </Reveal>
-            ))}
-          </div>
+          <p className="max-w-prose text-muted">
+            Contact us to discuss your business needs, service options and project scope.
+          </p>
           <div className="mt-8 flex justify-center">
-            <Button to="/start-project">{aboutSections.team.action}</Button>
+            <Button to="/start-project">{aboutSections.contact.action}</Button>
           </div>
         </Container>
       </Section>

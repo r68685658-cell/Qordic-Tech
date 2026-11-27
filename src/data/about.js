@@ -1,16 +1,16 @@
+import { businessInfo } from "./business.js";
+
 export const aboutPageHero = {
-  eyebrow: "Our story",
-  title: "Helping businesses work",
-  accent: "with more clarity.",
-  description:
-    "Qordic Technologies was built around a simple idea: practical software and support should help businesses move faster, operate more clearly and make better decisions.",
+  eyebrow: "About Qordic Tech",
+  title: "What Qordic Technologies",
+  accent: "does.",
+  description: businessInfo.description,
 };
 
 export const companyStory = {
-  eyebrow: "Story",
-  title: "Built around practical business outcomes.",
-  description:
-    "Qordic Technologies brings software delivery and operational support into one conversation, helping teams address the work behind growth.",
+  eyebrow: "Who we serve",
+  title: "Digital services for business needs.",
+  description: businessInfo.audience,
 };
 
 export const companyValues = [
@@ -40,18 +40,16 @@ export const companyValues = [
   },
 ];
 
-export const teamMembers = [];
-
 export const aboutSections = {
   values: {
     eyebrow: "Values",
     title: "The principles we work with",
     accent: "every day.",
   },
-  team: {
-    eyebrow: "Team",
-    title: "People who care about",
-    accent: "the work.",
-    action: "Talk with our team",
+  contact: {
+    eyebrow: "Contact",
+    title: "Discuss your requirements",
+    accent: "with Qordic Tech.",
+    action: "Start a project",
   },
 };
