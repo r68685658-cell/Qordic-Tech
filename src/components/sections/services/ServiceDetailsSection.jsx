@@ -79,12 +79,12 @@ export function ServiceDetailsSection({ service, index }) {
         <Reveal delay={0.06}>
           <div className="service-approach-grid">
             <article>
-              <span>01 · THE CHALLENGE</span>
+              <span className="service-approach-badge">01 · THE CHALLENGE</span>
               <h3>What this service can address</h3>
               <p>{service.problem}</p>
             </article>
             <article>
-              <span>02 · OUR APPROACH</span>
+              <span className="service-approach-badge">02 · OUR APPROACH</span>
               <h3>Start with your requirements</h3>
               <p>{service.approach}</p>
             </article>

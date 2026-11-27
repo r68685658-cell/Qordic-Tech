@@ -129,32 +129,32 @@ const stages = [
 
 const conceptExperiences = [
   {
-    icon: LayoutDashboard,
     category: "Business software",
     title: "Operations workspace",
     description: "A concept for bringing routine tasks, records and team handoffs into one view.",
     tags: ["Workflow", "Records", "Reporting"],
-    theme: "violet",
+    image: "/assets/concepts/operations-workspace.webp",
+    imageAlt: "Business workflow dashboard with task boards and data charts on multiple monitors and a tablet.",
     to: "/services#erp",
     serviceLabel: "Explore software services",
   },
   {
-    icon: Globe2,
     category: "Web experience",
     title: "Customer service portal",
     description: "An illustrative portal concept for helping customers find information and complete common tasks.",
     tags: ["Web portal", "Self-service", "Responsive"],
-    theme: "cyan",
+    image: "/assets/concepts/customer-service-portal.webp",
+    imageAlt: "Customer service agents wearing headsets and collaborating at a desktop computer.",
     to: "/services#websites",
     serviceLabel: "Explore web services",
   },
   {
-    icon: Smartphone,
     category: "Mobile product",
     title: "Connected field companion",
     description: "A sample mobile experience concept for staff who need relevant work information on the go.",
     tags: ["Mobile", "Tasks", "Connected data"],
-    theme: "pink",
+    image: "/assets/concepts/connected-field-companion.webp",
+    imageAlt: "Field engineer in a safety vest checking a smartphone at a construction site.",
     to: "/services#mobile-apps",
     serviceLabel: "Explore mobile apps",
   },
@@ -280,17 +280,20 @@ export function VisionTimeline() {
 export function ConceptExperiences() {
   return (
     <div className="phase8-concept-grid">
-      {conceptExperiences.map(({ icon: Icon, ...item }, index) => (
+      {conceptExperiences.map((item, index) => (
         <Reveal key={item.title} delay={index * 0.06}>
-          <SpotlightCard className={`phase8-concept-card phase8-concept-${item.theme}`}>
-            <div className="phase8-concept-visual" aria-hidden="true">
-              <div className="phase8-concept-window">
-                <span className="phase8-window-dots"><i /><i /><i /></span>
-                <Icon size={34} />
-                <span className="phase8-concept-bars"><i /><i /><i /></span>
-              </div>
-              <span className="phase8-concept-glow" />
-            </div>
+          <SpotlightCard className="phase8-concept-card">
+            <figure className="phase8-concept-visual">
+              <img
+                src={item.image}
+                alt={item.imageAlt}
+                width="2400"
+                height="1350"
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 520px) calc(100vw - 3rem), (max-width: 760px) calc(50vw - 2rem), (max-width: 1200px) calc(33vw - 1rem), 380px"
+              />
+            </figure>
             <div className="phase8-concept-copy">
               <span className="phase8-concept-label">Concept experience · {item.category}</span>
               <h3>{item.title}</h3>

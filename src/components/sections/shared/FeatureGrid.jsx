@@ -81,7 +81,7 @@ export function FeatureGrid({
               <Icon aria-hidden="true" size={22} />
             </span>
             {item.kicker && (
-              <span className="mb-2 inline-flex rounded-full bg-coral/10 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide text-rose-800 dark:text-rose-200">
+              <span className="feature-kicker mb-2 inline-flex rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide">
                 {item.kicker}
               </span>
             )}

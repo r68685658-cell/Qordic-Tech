@@ -1,6 +1,6 @@
 # Image asset sources
 
-The following locally stored WebP images were sourced from Unsplash and downloaded as 1400 × 900 crops:
+## Unsplash (1400 × 900 crops)
 
 | Local asset | Source |
 | --- | --- |
@@ -11,3 +11,13 @@ The following locally stored WebP images were sourced from Unsplash and download
 | `public/assets/company/about-collaboration.webp` | https://images.unsplash.com/photo-1517245386807-bb43f82c33c4 |
 
 These photos are used under the [Unsplash License](https://unsplash.com/license). Existing website-development and software-development photos were reused from `public/assets/services`.
+
+## Pexels concept cards (2400 × 1350 crops)
+
+| Local asset | Source |
+| --- | --- |
+| `public/assets/concepts/operations-workspace.webp` | https://www.pexels.com/photo/business-workflow-dashboard-with-tablet-and-monitors-38984817/ |
+| `public/assets/concepts/customer-service-portal.webp` | https://www.pexels.com/photo/a-man-and-a-woman-pointing-at-the-computer-screen-8867472/ |
+| `public/assets/concepts/connected-field-companion.webp` | https://www.pexels.com/photo/female-engineer-inspecting-construction-site-37779772/ |
+
+These concept-card photos are used under the [Pexels License](https://www.pexels.com/license/). The images are stored locally so the site does not rely on remote image requests at runtime.
