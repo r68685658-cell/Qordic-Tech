@@ -4,7 +4,8 @@ export const aboutPageHero = {
   eyebrow: "About Qordic Tech",
   title: "What Qordic Technologies",
   accent: "does.",
-  description: businessInfo.description,
+  description:
+    "Qordic Technologies is an online technology startup offering software and digital services under the Qordic Tech brand.",
 };
 
 export const companyStory = {

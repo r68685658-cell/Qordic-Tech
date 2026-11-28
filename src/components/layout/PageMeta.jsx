@@ -4,14 +4,16 @@ import { businessInfo } from "../../data/business.js";
 import { websiteSchema } from "../../data/pages.js";
 
 const canonicalBase = "https://qordictech.com";
+const socialImage = `${canonicalBase}/assets/brand/qordic-social-share.png`;
+const socialImageAlt = "Qordic Technologies wordmark on a dark blue and violet background.";
 
 export function PageMeta({ page }) {
   const { theme } = useTheme();
   const canonicalUrl = page.path
     ? `${canonicalBase}${page.path === "/" ? "/" : page.path}`
-    : canonicalBase;
+    : null;
   const schemaNodes = Array.isArray(page.schema) ? page.schema : page.schema ? [page.schema] : [];
-  const webPageSchema = {
+  const webPageSchema = canonicalUrl && {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": `${canonicalUrl}#webpage`,
@@ -21,7 +23,8 @@ export function PageMeta({ page }) {
     isPartOf: { "@id": "https://qordictech.com/#website" },
     about: { "@id": "https://qordictech.com/#organization" },
   };
-  const breadcrumbSchema = {
+  const breadcrumbLabel = page.label || page.title.replace(/\s*\|.*$/, "").trim();
+  const breadcrumbSchema = canonicalUrl && page.path !== "/" && {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
@@ -31,17 +34,22 @@ export function PageMeta({ page }) {
         name: "Home",
         item: "https://qordictech.com/",
       },
-      ...(page.path && page.path !== "/"
-        ? [{
-            "@type": "ListItem",
-            position: 2,
-            name: page.title.replace(/\s*\|.*$/, ""),
-            item: canonicalUrl,
-          }]
-        : []),
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: breadcrumbLabel,
+        item: canonicalUrl,
+      },
     ],
   };
-  const schema = [websiteSchema, webPageSchema, breadcrumbSchema, ...schemaNodes];
+  const schema = canonicalUrl
+    ? [
+        websiteSchema,
+        webPageSchema,
+        ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+        ...schemaNodes,
+      ]
+    : [];
   const robots = page.noindex ? "noindex, follow" : "index, follow";
 
   return (
@@ -49,23 +57,30 @@ export function PageMeta({ page }) {
       <title>{page.title}</title>
       <meta name="description" content={page.description} />
       <meta name="robots" content={robots} />
-      <link rel="canonical" href={canonicalUrl} />
-      <meta property="og:url" content={canonicalUrl} />
+      {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
       <meta property="og:type" content="website" />
       <meta property="og:title" content={page.title} />
       <meta property="og:description" content={page.description} />
       <meta property="og:site_name" content={businessInfo.name} />
-      <meta property="og:locale" content="en_PK" />
-      <meta property="og:image" content="https://qordictech.com/assets/brand/qordic-mark.png" />
+      <meta property="og:image" content={socialImage} />
+      <meta property="og:image:secure_url" content={socialImage} />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={socialImageAlt} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={page.title} />
       <meta name="twitter:description" content={page.description} />
-      <meta name="twitter:image" content="https://qordictech.com/assets/brand/qordic-mark.png" />
+      <meta name="twitter:image" content={socialImage} />
+      <meta name="twitter:image:alt" content={socialImageAlt} />
       <meta
         name="theme-color"
         content={theme === "dark" ? "#06111f" : "#f7fbff"}
       />
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+      {schema.length > 0 && (
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
+      )}
     </Helmet>
   );
 }

@@ -31,8 +31,8 @@ export const pages = [
   {
     path: "/",
     label: "Home",
-    title: "Qordic Technologies (Qordic Tech) | Digital Services",
-    description: businessInfo.description,
+    title: "Qordic Tech | Qordic Technologies - Software Development",
+    description: businessInfo.metaDescription,
     schema: organizationSchema,
   },
   {
@@ -83,9 +83,9 @@ export const pages = [
   {
     path: "/blog",
     label: "Blog",
-    title: "Blog | Qordic Technologies",
-    description:
-      "Explore Qordic Technologies blog ideas and updates about real estate software, AI chatbots, cybersecurity, data analytics and mobile apps.",
+    title: "Blog Coming Soon | Qordic Technologies",
+    description: "Qordic Technologies' blog is being prepared; articles will be published here when ready.",
+    noindex: true,
   },
   {
     path: "/faq",

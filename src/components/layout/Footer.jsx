@@ -27,8 +27,8 @@ export function Footer() {
               />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
-              Software and business support, shaped around the way your
-              organization works.
+              Qordic Tech (Qordic Technologies) offers software and business
+              support shaped around the way your organization works.
             </p>
           </div>
 
@@ -36,12 +36,10 @@ export function Footer() {
           <FooterLinkGroup title="Company" links={companyLinks} />
 
           <div>
-            <h2 className="text-sm font-bold text-ink">Follow</h2>
-            <p className="mt-4 text-sm text-muted">Direct enquiries</p>
+            <h2 className="text-sm font-bold text-ink">Contact</h2>
+            <p className="mt-4 text-sm text-muted">Have a project in mind?</p>
             <div className="mt-4 grid gap-2 text-sm">
-              <Link className="font-semibold text-ink hover:text-violet-strong" to="/contact">Start a conversation</Link>
-              <Link className="text-muted hover:text-ink" to="/privacy">Privacy Policy</Link>
-              <Link className="text-muted hover:text-ink" to="/terms">Terms &amp; Conditions</Link>
+              <Link className="font-semibold text-ink hover:text-violet-strong" to="/contact">Contact Qordic Tech</Link>
             </div>
           </div>
         </div>

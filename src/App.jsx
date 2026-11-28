@@ -40,7 +40,21 @@ export default function App() {
     <BrowserRouter>
       <Suspense fallback={<div className="min-h-[55vh]" aria-label="Loading page" />}>
         <Routes>
-          <Route path="/admin/ai" element={<PageTransition><AdminAIPage /></PageTransition>} />
+          <Route
+            path="/admin/ai"
+            element={
+              <PageTransition>
+                <PageMeta
+                  page={{
+                    title: "Private AI Console | Qordic Technologies",
+                    description: "Private administration page.",
+                    noindex: true,
+                  }}
+                />
+                <AdminAIPage />
+              </PageTransition>
+            }
+          />
           <Route element={<SiteLayout />}>
             {pages.map((page) => {
               const Page = routeComponents[page.path];

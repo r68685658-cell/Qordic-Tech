@@ -20,8 +20,8 @@ export default function AboutPage() {
     <main id="main">
       <PageHero {...aboutPageHero} />
       <Section as="section" id="company-story">
-        <Container className="grid items-stretch gap-6 lg:grid-cols-[1.05fr_.95fr]">
-          <div>
+        <Container className="grid min-w-0 grid-cols-1 items-stretch gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)]">
+          <div className="min-w-0">
             <div className="h-full rounded-panel border border-violet/35 bg-violet/10 p-6 sm:p-8">
               <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-violet-strong">
                 {companyStory.eyebrow}
@@ -59,8 +59,8 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-          <Reveal delay={0.08}>
-            <figure className="service-image-frame about-story-image">
+          <Reveal className="min-w-0" delay={0.08}>
+            <figure className="service-image-frame about-story-image w-full min-w-0">
               <img
                 className="service-image"
                 src="/assets/company/about-collaboration.webp"
